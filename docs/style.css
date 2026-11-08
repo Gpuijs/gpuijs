@@ -166,6 +166,17 @@ a:hover { text-decoration: underline; }
 }
 .menu-button:hover, .theme-button:hover { color: var(--text); background: var(--bg-soft); }
 .menu-button { display: none; }
+.github {
+  display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px;
+  font-size: 13.5px; color: var(--text-soft);
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.github:hover { color: var(--text); background: var(--bg-soft); text-decoration: none; }
+.github > svg { width: 18px; height: 18px; }
+.github .stars { display: flex; align-items: center; gap: 4px; padding-left: 8px; border-left: 1px solid var(--border); }
+.github .stars[hidden] { display: none; }
+.github .stars svg { width: 13px; height: 13px; color: #eab308; }
+.github b { font-weight: 600; font-variant-numeric: tabular-nums; }
 
 /* Three columns: navigation, the page, its contents */
 .layout {
@@ -302,6 +313,7 @@ td code { white-space: nowrap; }
   .menu-button { display: grid; }
   .search { flex: 1; min-width: 0; width: auto; }
   .search kbd { display: none; }
+  .github .stars { display: none; }
   .layout { grid-template-columns: minmax(0, 1fr); }
   .sidebar {
     position: fixed;

@@ -102,3 +102,26 @@ if (links.size) {
   addEventListener("scroll", mark, { passive: true })
   mark()
 }
+
+// The repo's star count beside the GitHub link, fetched once a session: GitHub allows 60
+// unauthenticated API calls an hour. Without it the link shows the logo alone.
+async function showStars() {
+  let stars
+  try {
+    stars = sessionStorage.getItem("stars")
+  } catch {}
+  if (stars == null) {
+    const res = await fetch("https://api.github.com/repos/Gpuijs/gpuijs")
+    if (!res.ok) return
+    stars = (await res.json()).stargazers_count
+    try {
+      sessionStorage.setItem("stars", stars)
+    } catch {}
+  }
+  const link = document.querySelector(".github")
+  const count = link.querySelector(".stars")
+  count.querySelector("b").textContent = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(stars).toLowerCase()
+  count.hidden = false
+  link.setAttribute("aria-label", `gpuijs on GitHub, ${Number(stars).toLocaleString("en")} stars`)
+}
+showStars().catch(() => {})

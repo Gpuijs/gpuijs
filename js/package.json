@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "description": "React, Vue and Solid apps rendered natively by GPUI",
   "homepage": "https://gpuijs.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gpuijs/gpuijs.git",
+    "directory": "js"
+  },
+  "bugs": "https://github.com/Gpuijs/gpuijs/issues",
   "keywords": [
     "gpui",
     "react",

@@ -3,7 +3,18 @@
   "version": "0.1.0",
   "description": "The gpuijs native host for macOS (x64)",
   "homepage": "https://gpuijs.dev",
-  "os": ["darwin"],
-  "cpu": ["x64"],
-  "files": ["gpuijs"]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gpuijs/gpuijs.git",
+    "directory": "npm/darwin-x64"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "gpuijs"
+  ]
 }
