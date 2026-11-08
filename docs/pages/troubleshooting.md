@@ -6,9 +6,9 @@
 
 In a gpuijs checkout, the native host hasn't been built: run `cargo build` at the repository root, or set `GPUIJS_HOST` to a host binary.
 
-### `gpuijs: gpuijs-darwin-arm64 isn't installed`
+### `gpuijs: @gpuijs/darwin-arm64 isn't installed`
 
-The prebuilt host package didn't install alongside `gpuijs`. Reinstall with `bun install` (or `npm install`), and don't pass `--no-optional` or `--omit=optional`. On Linux or Windows this message is expected: gpuijs runs on macOS only for now.
+The prebuilt host package didn't install alongside `@gpuijs/core`. Reinstall with `bun install` (or `npm install`), and don't pass `--no-optional` or `--omit=optional`. On Linux or Windows this message is expected: gpuijs runs on macOS only for now.
 
 ### `gpuijs: no src/main.{tsx,jsx,ts,js} in <dir>`
 
@@ -20,11 +20,11 @@ You ran the bundle (`.gpuijs/app.js`) with Bun directly. The host has to start i
 
 ### `js process exited before connecting`
 
-The app crashed while loading, before rendering anything. The error is printed above this line. A common cause is a library touching `window` or `document` at import time because the framework's entry point (`gpuijs/react`, `gpuijs/vue` or `gpuijs/solid`) isn't imported first.
+The app crashed while loading, before rendering anything. The error is printed above this line. A common cause is a library touching `window` or `document` at import time because the framework's entry point (`@gpuijs/core/react`, `@gpuijs/core/vue` or `@gpuijs/core/solid`) isn't imported first.
 
 ### `ReferenceError: window is not defined` (or `document`, `matchMedia`, …)
 
-Make the framework's entry point (`gpuijs/react`, `gpuijs/vue` or `gpuijs/solid`) the **first** import of `src/main.*`; it sets up the browser globals. Imports run in order, so the globals have to exist before any library module is evaluated.
+Make the framework's entry point (`@gpuijs/core/react`, `@gpuijs/core/vue` or `@gpuijs/core/solid`) the **first** import of `src/main.*`; it sets up the browser globals. Imports run in order, so the globals have to exist before any library module is evaluated.
 
 ### `gpuijs: create the Window before rendering or touching the document`
 

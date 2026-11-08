@@ -8,7 +8,7 @@
     "examples/bench": {
       "name": "bench",
       "dependencies": {
-        "gpuijs": "workspace:*",
+        "@gpuijs/core": "workspace:*",
         "react": "19.3.1",
         "react-dom": "19.3.1",
       },
@@ -16,7 +16,7 @@
     "examples/css-lab": {
       "name": "css-lab",
       "dependencies": {
-        "gpuijs": "workspace:*",
+        "@gpuijs/core": "workspace:*",
         "react": "19.3.1",
         "react-dom": "19.3.1",
       },
@@ -24,11 +24,11 @@
     "examples/editors-demo": {
       "name": "editors-demo",
       "dependencies": {
+        "@gpuijs/core": "workspace:*",
         "@lexical/react": "0.53.0",
         "@tiptap/pm": "3.33.0",
         "@tiptap/react": "3.33.0",
         "@tiptap/starter-kit": "3.33.0",
-        "gpuijs": "workspace:*",
         "lexical": "0.53.0",
         "react": "19.3.1",
         "react-dom": "19.3.1",
@@ -37,7 +37,7 @@
     "examples/elements-demo": {
       "name": "elements-demo",
       "dependencies": {
-        "gpuijs": "workspace:*",
+        "@gpuijs/core": "workspace:*",
         "react": "19.3.1",
         "react-dom": "19.3.1",
         "tailwindcss": "^4",
@@ -46,8 +46,8 @@
     "examples/media-demo": {
       "name": "media-demo",
       "dependencies": {
+        "@gpuijs/core": "workspace:*",
         "chart.js": "4.4.7",
-        "gpuijs": "workspace:*",
         "react": "19.3.1",
         "react-dom": "19.3.1",
       },
@@ -57,6 +57,7 @@
       "dependencies": {
         "@emotion/react": "11.14.0",
         "@emotion/styled": "11.14.1",
+        "@gpuijs/core": "workspace:*",
         "@mui/icons-material": "9.5.0",
         "@mui/material": "9.5.0",
         "@mui/x-charts": "9.16.0",
@@ -66,7 +67,6 @@
         "@react-spring/web": "10.1.2",
         "clsx": "2.1.1",
         "dayjs": "1.11.23",
-        "gpuijs": "workspace:*",
         "react": "19.3.1",
         "react-dom": "19.3.1",
       },
@@ -81,6 +81,7 @@
         "@dnd-kit/modifiers": "^9.0.0",
         "@dnd-kit/sortable": "^10.0.0",
         "@dnd-kit/utilities": "^3.2.2",
+        "@gpuijs/core": "workspace:*",
         "@shadcn/helpers": "^0.2.0",
         "@shadcn/react": "^0.3.1",
         "@tabler/icons-react": "^3.49.0",
@@ -94,7 +95,6 @@
         "cmdk": "^1.1.1",
         "date-fns": "^4.4.0",
         "embla-carousel-react": "^8.6.0",
-        "gpuijs": "workspace:*",
         "input-otp": "^1.5.0",
         "kbar": "^1.0.0",
         "match-sorter": "^8.3.0",
@@ -127,12 +127,12 @@
     "examples/shadcn-demo": {
       "name": "shadcn-demo",
       "dependencies": {
+        "@gpuijs/core": "workspace:*",
         "@radix-ui/react-label": "^2",
         "@radix-ui/react-separator": "^1",
         "@radix-ui/react-slot": "^1",
         "class-variance-authority": "^0.7",
         "clsx": "^2",
-        "gpuijs": "workspace:*",
         "react": "19.3.1",
         "react-dom": "19.3.1",
         "tailwind-merge": "^3",
@@ -145,7 +145,7 @@
     "examples/solid-demo": {
       "name": "solid-demo",
       "dependencies": {
-        "gpuijs": "workspace:*",
+        "@gpuijs/core": "workspace:*",
         "solid-js": "^1.9",
       },
       "devDependencies": {
@@ -158,7 +158,7 @@
     "examples/vue-demo": {
       "name": "vue-demo",
       "dependencies": {
-        "gpuijs": "workspace:*",
+        "@gpuijs/core": "workspace:*",
         "vue": "^3.5",
       },
       "devDependencies": {
@@ -168,7 +168,7 @@
     "examples/webgl-demo": {
       "name": "webgl-demo",
       "dependencies": {
-        "gpuijs": "workspace:*",
+        "@gpuijs/core": "workspace:*",
         "pixi.js": "8.6.6",
         "react": "19.3.1",
         "react-dom": "19.3.1",
@@ -179,7 +179,7 @@
       },
     },
     "js": {
-      "name": "gpuijs",
+      "name": "@gpuijs/core",
       "version": "0.1.0",
       "bin": {
         "gpuijs": "bin/gpuijs.js",
@@ -194,8 +194,8 @@
         "react": "19.3.1",
       },
       "optionalDependencies": {
-        "gpuijs-darwin-arm64": "0.1.0",
-        "gpuijs-darwin-x64": "0.1.0",
+        "@gpuijs/darwin-arm64": "0.1.0",
+        "@gpuijs/darwin-x64": "0.1.0",
       },
       "peerDependencies": {
         "react": "^19.3.0",
@@ -208,11 +208,11 @@
       ],
     },
     "npm/darwin-arm64": {
-      "name": "gpuijs-darwin-arm64",
+      "name": "@gpuijs/darwin-arm64",
       "version": "0.1.0",
     },
     "npm/darwin-x64": {
-      "name": "gpuijs-darwin-x64",
+      "name": "@gpuijs/darwin-x64",
       "version": "0.1.0",
     },
   },
@@ -340,6 +340,12 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.9", "", { "dependencies": { "@floating-ui/dom": "^1.8.0" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-JDjEFGCpImxDCA7JJKviA0M9+RtmJdj0m/NVU5IMgBK+AmZouAQQ7/+2GLH0GXXY0YMw9oXPB8hKdbPYg5QLYg=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.12", "", {}, "sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww=="],
+
+    "@gpuijs/core": ["@gpuijs/core@workspace:js"],
+
+    "@gpuijs/darwin-arm64": ["@gpuijs/darwin-arm64@workspace:npm/darwin-arm64"],
+
+    "@gpuijs/darwin-x64": ["@gpuijs/darwin-x64@workspace:npm/darwin-x64"],
 
     "@internationalized/number": ["@internationalized/number@3.6.9", "", { "dependencies": { "@swc/helpers": "^0.5.0" } }, "sha512-GgWy2caO/+hV9sT/oCTWGHvbjmJMPT9kkXzoKRLnkEq7adghhR7UprhvY9sXrKfrp3NcDfhF6QQHXR1KfQbB8g=="],
 
@@ -952,12 +958,6 @@
     "get-nonce": ["get-nonce@1.0.1", "", {}, "sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q=="],
 
     "goober": ["goober@2.1.19", "", { "peerDependencies": { "csstype": "^3.0.10" } }, "sha512-U7veizMqxyKlM58+Z5j2ngJBH/r9siDmxpvNxSw0PylF6WQvrASJEZrxh1hidRBJc2jqoBVSyOban5u8m+6Rxg=="],
-
-    "gpuijs": ["gpuijs@workspace:js"],
-
-    "gpuijs-darwin-arm64": ["gpuijs-darwin-arm64@workspace:npm/darwin-arm64"],
-
-    "gpuijs-darwin-x64": ["gpuijs-darwin-x64@workspace:npm/darwin-x64"],
 
     "graceful-fs": ["graceful-fs@4.2.11", "", {}, "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ=="],
 

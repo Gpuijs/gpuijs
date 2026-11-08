@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Menu, Window, app, dialog } from "gpuijs/react"
+import { Menu, Window, app, dialog } from "@gpuijs/core/react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"

@@ -38,10 +38,10 @@ shadcn/ui components work as generated. Its theme (CSS variables in `:root` and 
 
 ### Class-based (`dark:` variant)
 
-shadcn and Tailwind's `dark:` variant can key off a `dark` class on `<html>`. Set it with [`setRootClass`](api.html#setrootclass), or through `document.documentElement.classList` when you use `gpuijs/env`:
+shadcn and Tailwind's `dark:` variant can key off a `dark` class on `<html>`. Set it with [`setRootClass`](api.html#setrootclass), or through `document.documentElement.classList` when you use `@gpuijs/core/env`:
 
 ```tsx
-import { setRootClass } from "gpuijs"
+import { setRootClass } from "@gpuijs/core"
 
 setRootClass(dark ? "dark" : "")
 

@@ -7,7 +7,7 @@ gpuijs dev <app-dir>
 gpuijs build <app-dir> [--sign <identity>]
 ```
 
-`<app-dir>` defaults to the current directory. An app that depends on the `gpuijs` package calls `gpuijs` from its `package.json` scripts, or runs `bunx gpuijs`. In the gpuijs repository, call the CLI as `bun js/bin/gpuijs.js`.
+`<app-dir>` defaults to the current directory. The `@gpuijs/core` package installs it: an app calls `gpuijs` from its `package.json` scripts, or runs `bunx gpuijs`. In the gpuijs repository, call the CLI as `bun js/bin/gpuijs.js`.
 
 ## `gpuijs dev`
 
@@ -45,7 +45,7 @@ It writes `.gpuijs/entry.css` with one `@import` per sheet and runs the Tailwind
 
 The CLI starts the host binary with the bundle's path. The host opens a socket and two pipes, starts Bun on the bundle, waits for it to connect and opens the window the app asks for. When the window closes, both processes exit.
 
-The host binary is `GPUIJS_HOST` if set, else `target/debug/gpuijs` in a gpuijs checkout, else the one in the `gpuijs-darwin-arm64` or `gpuijs-darwin-x64` package npm installed with `gpuijs`. Stopping the CLI with Ctrl+C (or `SIGTERM`) closes the window too.
+The host binary is `GPUIJS_HOST` if set, else `target/debug/gpuijs` in a gpuijs checkout, else the one in the `@gpuijs/darwin-arm64` or `@gpuijs/darwin-x64` package npm installed with `@gpuijs/core`. Stopping the CLI with Ctrl+C (or `SIGTERM`) closes the window too.
 
 > [!NOTE]
 > There's no hot reload yet. Restart `gpuijs dev` to see changes.
@@ -59,7 +59,7 @@ gpuijs build examples/shadcn-demo --sign "Developer ID Application: Jane Doe (TE
 
 `build` runs the same bundling and CSS steps with production builds and minification. It then:
 
-1. Takes the release host: `GPUIJS_HOST` if set, else the installed `gpuijs-darwin-*` package's. In a gpuijs checkout it runs `cargo build --release` and takes `target/release/gpuijs`.
+1. Takes the release host: `GPUIJS_HOST` if set, else the installed `@gpuijs/darwin-*` package's. In a gpuijs checkout it runs `cargo build --release` and takes `target/release/gpuijs`.
 2. Creates `.gpuijs/<Name>.app`, with the host as its executable.
 3. Compiles the bundle into a standalone Bun executable at `Contents/Resources/app`, so the user doesn't need Bun installed.
 4. Copies `app.css`, `public/` and a small `gpuijs.json` (name and bundle id) into `Contents/Resources`.
@@ -77,7 +77,7 @@ The full story, notarization included, is in [Packaging for macOS](shipping.html
 | Bundling fails | Bun's build log, exits 1 |
 | Tailwind fails | Tailwind's exit code |
 | Host binary missing | `host binary not found at …; run cargo build or set GPUIJS_HOST`, exits 1 |
-| No host package for this platform | `gpuijs: gpuijs-<platform>-<arch> isn't installed; gpuijs runs on macOS (arm64, x64) only`, exits 1 |
+| No host package for this platform | `gpuijs: @gpuijs/<platform>-<arch> isn't installed; gpuijs runs on macOS (arm64, x64) only`, exits 1 |
 | App exits | The host's exit code |
 
 ## Environment variables

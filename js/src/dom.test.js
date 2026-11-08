@@ -3,7 +3,7 @@ import net from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-// What plain-DOM code (vanilla JS, Solid, Vue) calls, under `gpuijs/env` with a stand-in host.
+// What plain-DOM code (vanilla JS, Solid, Vue) calls, under `@gpuijs/core/env` with a stand-in host.
 // env.js replaces globals, so the checks run in a Bun process of their own (see the end).
 let host;
 const loaded = [];

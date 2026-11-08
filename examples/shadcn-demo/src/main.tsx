@@ -1,4 +1,4 @@
-import { Window, setRootClass } from "gpuijs/react"
+import { Window, setRootClass } from "@gpuijs/core/react"
 
 import { App } from "./App"
 

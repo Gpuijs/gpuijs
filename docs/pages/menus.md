@@ -3,7 +3,7 @@
 `Menu` and `MenuItem` follow Electron's API. Build menus from templates, set the application menu and the Dock menu, and pop up native context menus.
 
 ```tsx
-import { Menu, app } from "gpuijs"
+import { Menu, app } from "@gpuijs/core"
 
 Menu.setApplicationMenu(
   Menu.buildFromTemplate([

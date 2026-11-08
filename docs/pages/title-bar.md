@@ -3,7 +3,7 @@
 As in Electron, a custom title bar is made with a hidden title bar and CSS: `app-region: drag` marks what drags the window, and `app-region: no-drag` marks what doesn't.
 
 ```ts
-import { Window } from "gpuijs"
+import { Window } from "@gpuijs/core"
 
 const win = new Window({
   width: 1100,

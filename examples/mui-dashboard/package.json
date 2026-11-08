@@ -18,7 +18,7 @@
     "@react-spring/web": "10.1.2",
     "clsx": "2.1.1",
     "dayjs": "1.11.23",
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   }

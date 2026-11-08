@@ -6,23 +6,23 @@ Each framework has its own entry point. It sets up `window` and `document` (see 
 
 | Import | `render` |
 | --- | --- |
-| `gpuijs/react` | `render(<App />)`. Calling it again updates the root. |
-| `gpuijs/vue` | `render(App)`, or `render(createApp(App).use(router))` to install plugins first. Returns the Vue app. |
-| `gpuijs/solid` | `render(() => <App />)`. Returns a function that unmounts it. |
+| `@gpuijs/core/react` | `render(<App />)`. Calling it again updates the root. |
+| `@gpuijs/core/vue` | `render(App)`, or `render(createApp(App).use(router))` to install plugins first. Returns the Vue app. |
+| `@gpuijs/core/solid` | `render(() => <App />)`. Returns a function that unmounts it. |
 
-Plain `gpuijs` exports the shared API without `render` or the browser environment, for modules that only need `Window`, `Menu` or `dialog`.
+Plain `@gpuijs/core` exports the shared API without `render` or the browser environment, for modules that only need `Window`, `Menu` or `dialog`.
 
 Import the entry point **first** in `src/main.*`, before anything that loads the framework or its libraries. Vue reads `document` once, as it loads.
 
 ## React
 
 ```sh
-bun add gpuijs react
+bun add @gpuijs/core react
 ```
 
 ```tsx
 // src/main.tsx
-import { Window, render } from "gpuijs/react"
+import { Window, render } from "@gpuijs/core/react"
 import "./app.css"
 import { App } from "./App"
 
@@ -35,12 +35,12 @@ React 19.3 or later is required. `react-dom` isn't needed to render, though libr
 ## Vue
 
 ```sh
-bun add gpuijs vue
+bun add @gpuijs/core vue
 ```
 
 ```ts
 // src/main.ts
-import { Window, render } from "gpuijs/vue"
+import { Window, render } from "@gpuijs/core/vue"
 import "./app.css"
 import App from "./App.vue"
 
@@ -53,13 +53,13 @@ render(App)
 ## Solid
 
 ```sh
-bun add gpuijs solid-js
+bun add @gpuijs/core solid-js
 bun add -d babel-preset-solid @babel/core @babel/preset-typescript
 ```
 
 ```tsx
 // src/main.tsx
-import { Window, render } from "gpuijs/solid"
+import { Window, render } from "@gpuijs/core/solid"
 import "./app.css"
 import { App } from "./App"
 

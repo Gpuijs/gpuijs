@@ -1,5 +1,5 @@
 {
-  "name": "gpuijs-darwin-x64",
+  "name": "@gpuijs/darwin-x64",
   "version": "0.1.0",
   "description": "The gpuijs native host for macOS (x64)",
   "license": "MIT",

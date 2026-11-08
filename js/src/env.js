@@ -1,4 +1,4 @@
-// `import "gpuijs/env"` first thing in an app: just enough `window`/`document` for React libraries
+// `import "@gpuijs/core/env"` first thing in an app: just enough `window`/`document` for React libraries
 // (Radix, floating-ui, MUI, Recharts, ApexCharts, react-router, sonner, axios) to run outside a
 // browser. Elements themselves are gpuijs host nodes; this file only fills in the globals around them.
 // shortcut: a fixed desktop pointer media query and no real focus; replace as gpuijs grows window APIs.

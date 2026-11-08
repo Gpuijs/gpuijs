@@ -24,11 +24,11 @@ No browser engine and no WebView: the app's own CSS is cascaded and laid out by 
 Developers evaluate by reading code samples, running `bun js/bin/gpuijs.js dev examples/shadcn-demo`, and comparing against the same app in Chrome (the examples have `web` scripts and compare tooling). Apps are a directory with `src/main.*`; `gpuijs dev` runs them, `gpuijs build` packages a signed `.app`. The shell API mirrors Electron's (`Window`, `Menu`, `app`, `dialog`).
 
 ## Capabilities and Constraints
-- React 19 (own reconciler, concurrent root), Vue 3 and Solid through their stock DOM runtimes; entry points `gpuijs/react`, `gpuijs/vue`, `gpuijs/solid`.
+- React 19 (own reconciler, concurrent root), Vue 3 and Solid through their stock DOM runtimes; entry points `@gpuijs/core/react`, `@gpuijs/core/vue`, `@gpuijs/core/solid`.
 - Real CSS: selectors, specificity, cascade layers, custom properties, calc(), media and container queries, :has(), transitions, keyframes. Tailwind v4 compiled by the CLI.
 - Native text fields (typing never waits on JavaScript), native menus, dialogs, custom title bars via `app-region`.
 - Constraints: macOS only for now; one window per app; early software. Not a full DOM (no iframes).
-- Not published to npm yet; install is from a checkout.
+- Published to npm as `@gpuijs/core` (scope `@gpuijs` because npm blocked `gpuijs` as too close to `gpui-js`), with prebuilt hosts `@gpuijs/darwin-arm64` and `@gpuijs/darwin-x64`.
 - Hosting: the landing page lives at gpuijs.dev, the docs at docs.gpuijs.dev.
 - Open: public repository URL (the user will provide it).
 

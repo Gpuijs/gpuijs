@@ -131,13 +131,13 @@ const proc = Bun.spawn([host, path.join(out, "app.js")], { stdio: ["inherit", "i
 for (const signal of ["SIGTERM", "SIGINT"]) process.on(signal, () => proc.kill(signal));
 process.exit(await proc.exited);
 
-// GPUIJS_HOST, else the repo's cargo build in a checkout, else the gpuijs-<platform>-<arch>
+// GPUIJS_HOST, else the repo's cargo build in a checkout, else the @gpuijs/<platform>-<arch>
 // package npm installed beside this one.
 function findHost(profile) {
   let host = process.env.GPUIJS_HOST;
   if (!host && existsSync(path.join(repo, "Cargo.toml"))) host = path.join(repo, "target", profile, "gpuijs");
   if (!host) {
-    const name = `gpuijs-${process.platform}-${process.arch}`;
+    const name = `@gpuijs/${process.platform}-${process.arch}`;
     try {
       host = path.join(path.dirname(Bun.resolveSync(`${name}/package.json`, here)), "gpuijs");
     } catch {

@@ -6,7 +6,7 @@
     "dev": "gpuijs dev ."
   },
   "dependencies": {
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "pixi.js": "8.6.6",
     "react": "19.3.1",
     "react-dom": "19.3.1",

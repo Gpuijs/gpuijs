@@ -24,7 +24,7 @@ gpuijs splits an app between a JavaScript process that runs the UI framework (Re
 
 ## Two processes
 
-**The host** (`src/main.rs`) is the process you launch. In development the CLI runs `gpuijs .gpuijs/app.js`, with the host from the installed `gpuijs-darwin-*` package (`target/debug/gpuijs` in a gpuijs checkout). In a packaged app the host is the bundle's executable and finds the compiled sidecar in `Contents/Resources`.
+**The host** (`src/main.rs`) is the process you launch. In development the CLI runs `gpuijs .gpuijs/app.js`, with the host from the installed `@gpuijs/darwin-*` package (`target/debug/gpuijs` in a gpuijs checkout). In a packaged app the host is the bundle's executable and finds the compiled sidecar in `Contents/Resources`.
 
 At startup, the host:
 

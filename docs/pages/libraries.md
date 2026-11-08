@@ -4,7 +4,7 @@ gpuijs runs libraries unchanged when they stick to their framework and the DOM s
 
 Most of them are React libraries, because the large examples are React apps. Framework-agnostic ones (floating-ui, ApexCharts, Chart.js, flatpickr, axios) rely only on host nodes and the browser environment, which Vue and Solid apps get too. So far they have been tested from React apps. See [Frameworks](frameworks.html).
 
-Import your framework's entry point (`gpuijs/react`, `gpuijs/vue` or `gpuijs/solid`) first when you use any of these.
+Import your framework's entry point (`@gpuijs/core/react`, `@gpuijs/core/vue` or `@gpuijs/core/solid`) first when you use any of these.
 
 ## Component libraries
 

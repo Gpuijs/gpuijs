@@ -20,7 +20,7 @@ my-app/
 
 The entry module. The CLI looks for `src/main.tsx`, `src/main.jsx`, `src/main.ts` and then `src/main.js`, and uses the first it finds. The entry should:
 
-1. Import its framework's entry point (`gpuijs/react`, `gpuijs/vue` or `gpuijs/solid`) first.
+1. Import its framework's entry point (`@gpuijs/core/react`, `@gpuijs/core/vue` or `@gpuijs/core/solid`) first.
 2. Optionally create a `Window` and set up menus.
 3. Call the entry point's `render` with the root component. See [Frameworks](frameworks.html).
 
@@ -58,24 +58,24 @@ The window's size and look don't belong here. They come from `new Window(...)` i
 
 ## Dependencies
 
-A gpuijs app depends on `gpuijs` and its framework: `react` (19.3 or later), `vue` (3.5) or `solid-js` (1.9). Solid apps also need `babel-preset-solid` as a dev dependency. [Frameworks](frameworks.html) has the details for each.
+A gpuijs app depends on `@gpuijs/core` and its framework: `react` (19.3 or later), `vue` (3.5) or `solid-js` (1.9). Solid apps also need `babel-preset-solid` as a dev dependency. [Frameworks](frameworks.html) has the details for each.
 
 ```json
 {
   "dependencies": {
-    "gpuijs": "^0.1.0",
+    "@gpuijs/core": "^0.1.0",
     "vue": "^3.5"
   }
 }
 ```
 
-The `gpuijs` package brings Tailwind v4 (`tailwindcss` and `@tailwindcss/cli`). If your CSS says `@import "tailwindcss"` and the import doesn't resolve from your app's directory, add `tailwindcss` to your app's own dependencies.
+The `@gpuijs/core` package brings Tailwind v4 (`tailwindcss` and `@tailwindcss/cli`). If your CSS says `@import "tailwindcss"` and the import doesn't resolve from your app's directory, add `tailwindcss` to your app's own dependencies.
 
 ### Inside or outside the repository
 
-An app anywhere depends on `gpuijs` from npm, and npm installs the prebuilt host beside it.
+An app anywhere depends on `@gpuijs/core` from npm, and npm installs the prebuilt host beside it.
 
-To run against a gpuijs checkout instead, put the app inside `examples/` with `"gpuijs": "workspace:*"`: the Bun workspace links `gpuijs` for you, and the CLI finds the debug host at `target/debug/gpuijs`. An app elsewhere can depend on the checkout by path (`"gpuijs": "link:gpuijs"` after `bun link` in `js/`, or `"file:../gpuijs/js"`). The CLI looks for the host relative to its own file, at `<checkout>/target/debug/gpuijs`. To use a host built somewhere else, set `GPUIJS_HOST`:
+To run against a gpuijs checkout instead, put the app inside `examples/` with `"@gpuijs/core": "workspace:*"`: the Bun workspace links `@gpuijs/core` for you, and the CLI finds the debug host at `target/debug/gpuijs`. An app elsewhere can depend on the checkout by path (`"@gpuijs/core": "link:gpuijs"` after `bun link` in `js/`, or `"file:../gpuijs/js"`). The CLI looks for the host relative to its own file, at `<checkout>/target/debug/gpuijs`. To use a host built somewhere else, set `GPUIJS_HOST`:
 
 ```sh
 GPUIJS_HOST=/path/to/gpuijs bunx gpuijs dev .
@@ -100,7 +100,7 @@ The CLI bundles TypeScript and JSX with Bun, so no `tsc` step is needed. For Rea
 
 Solid apps set `"jsx": "preserve"` and `"jsxImportSource": "solid-js"` instead. Vue apps need no JSX setting.
 
-The `gpuijs` package is plain JavaScript with JSDoc comments, so it has no bundled type declarations yet.
+The `@gpuijs/core` package is plain JavaScript with JSDoc comments, so it has no bundled type declarations yet.
 
 ## Path aliases
 

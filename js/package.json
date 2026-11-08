@@ -1,5 +1,5 @@
 {
-  "name": "gpuijs",
+  "name": "@gpuijs/core",
   "version": "0.1.0",
   "description": "React, Vue and Solid apps rendered natively by GPUI",
   "license": "MIT",
@@ -65,7 +65,7 @@
     "react": "19.3.1"
   },
   "optionalDependencies": {
-    "gpuijs-darwin-arm64": "0.1.0",
-    "gpuijs-darwin-x64": "0.1.0"
+    "@gpuijs/darwin-arm64": "0.1.0",
+    "@gpuijs/darwin-x64": "0.1.0"
   }
 }

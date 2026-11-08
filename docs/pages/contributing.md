@@ -31,7 +31,7 @@ gpuijs/
 │   ├── bin/entitlements.plist
 │   └── src/
 │       ├── index.js        public exports
-│       ├── env.js          gpuijs/env: browser globals
+│       ├── env.js          @gpuijs/core/env: browser globals
 │       ├── renderer.js     the React host config, host nodes, event dispatch
 │       ├── native.js       Window, Menu, MenuItem, app, dialog
 │       ├── transport.js    socket and pipes

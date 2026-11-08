@@ -1,5 +1,5 @@
-// gpuijs/solid comes first: it sets up `document` before Solid loads.
-import { Window, render } from "gpuijs/solid"
+// @gpuijs/core/solid comes first: it sets up `document` before Solid loads.
+import { Window, render } from "@gpuijs/core/solid"
 import "./app.css"
 import { App } from "./App"
 

@@ -6,7 +6,7 @@ Each framework has its own entry point. Import it first in `src/main.*` and hand
 
 ```tsx
 // React
-import { render } from "gpuijs/react"
+import { render } from "@gpuijs/core/react"
 import "./app.css"
 import { App } from "./App"
 
@@ -15,7 +15,7 @@ render(<App />)
 
 ```ts
 // Vue
-import { render } from "gpuijs/vue"
+import { render } from "@gpuijs/core/vue"
 import "./app.css"
 import App from "./App.vue"
 
@@ -24,7 +24,7 @@ render(App)
 
 ```tsx
 // Solid
-import { render } from "gpuijs/solid"
+import { render } from "@gpuijs/core/solid"
 import "./app.css"
 import { App } from "./App"
 
@@ -67,4 +67,4 @@ It is not a browser. Your components run unchanged, but it renders to a native t
 - [Quick start](quick-start.html): install gpuijs and run your first app.
 - [Project structure](project.html): what a gpuijs app looks like on disk.
 - [Styling](styling.html): Tailwind, plain CSS and CSS-in-JS.
-- [API reference](api.html): every export of `gpuijs`.
+- [API reference](api.html): every export of `@gpuijs/core`.

@@ -6,7 +6,7 @@
     "dev": "gpuijs dev ."
   },
   "dependencies": {
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "solid-js": "^1.9"
   },
   "devDependencies": {

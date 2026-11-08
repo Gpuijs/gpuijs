@@ -6,7 +6,7 @@ gpuijs is configured by convention. Environment variables cover the rest: overri
 
 | Variable | Read by | Effect |
 | --- | --- | --- |
-| `GPUIJS_HOST` | CLI | The host binary to run (`dev`) or package (`build`), instead of the installed `gpuijs-darwin-*` one (in a gpuijs checkout, `target/debug/gpuijs` or a fresh `cargo build --release`) |
+| `GPUIJS_HOST` | CLI | The host binary to run (`dev`) or package (`build`), instead of the installed `@gpuijs/darwin-*` one (in a gpuijs checkout, `target/debug/gpuijs` or a fresh `cargo build --release`) |
 | `GPUIJS_PRODUCTION` | CLI | With `dev`: bundle production builds of the framework and libraries, and minify, as `build` does. Use it for benchmarks. |
 | `GPUIJS_WINDOW_SIZE` | Host | `WIDTHxHEIGHT`, like `1440x900`. Opens the window at that size, overriding `new Window()`'s `width` and `height`. |
 | `GPUIJS_PROFILE` | Host | Prints a per-frame timing breakdown to stderr. See [Performance](performance.html#frame-profiling). |

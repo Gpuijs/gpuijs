@@ -1,4 +1,4 @@
-import { render } from "gpuijs/react"
+import { render } from "@gpuijs/core/react"
 
 import { App } from "./App"
 

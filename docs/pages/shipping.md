@@ -38,7 +38,7 @@ My App.app/
 └── Contents/
     ├── Info.plist          name, id, version, NSHighResolutionCapable
     ├── MacOS/
-    │   └── My App          the release host (from gpuijs-darwin-*)
+    │   └── My App          the release host (from @gpuijs/darwin-*)
     └── Resources/
         ├── app             the app compiled into a standalone Bun executable
         ├── app.css         the compiled stylesheet
@@ -102,4 +102,4 @@ Zip the stapled app (`ditto -c -k --keepParent`) or put it on a disk image (`hdi
 
 | Variable | Effect |
 | --- | --- |
-| `GPUIJS_HOST` | Package this host binary instead of the installed `gpuijs-darwin-*` one (or, in a gpuijs checkout, a fresh `cargo build --release`) |
+| `GPUIJS_HOST` | Package this host binary instead of the installed `@gpuijs/darwin-*` one (or, in a gpuijs checkout, a fresh `cargo build --release`) |

@@ -28,7 +28,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "input-otp": "^1.5.0",
     "kbar": "^1.0.0",
     "match-sorter": "^8.3.0",

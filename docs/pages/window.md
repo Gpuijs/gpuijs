@@ -3,7 +3,7 @@
 The shell API follows [Electron](https://www.electronjs.org/docs/latest/api/browser-window)'s, with `Window` in place of `BrowserWindow`. If you know Electron, you already know it. The host carries out each call with native AppKit windows through GPUI.
 
 ```tsx
-import { Window, render } from "gpuijs/react" // or gpuijs/vue, gpuijs/solid
+import { Window, render } from "@gpuijs/core/react" // or gpuijs/vue, gpuijs/solid
 
 const win = new Window({
   width: 1200,
@@ -29,7 +29,7 @@ Create the `Window` **before** rendering or touching `document`. Anything that n
 gpuijs: create the Window before rendering or touching the document
 ```
 
-Importing the entry point doesn't open the window, so `import { Window } from "gpuijs/vue"` (or `react`, `solid`) before `new Window()` is fine.
+Importing the entry point doesn't open the window, so `import { Window } from "@gpuijs/core/vue"` (or `react`, `solid`) before `new Window()` is fine.
 
 If the app never creates one, `render` opens a default window: 1024×768, centered, resizable, with a standard title bar titled with the app's name.
 

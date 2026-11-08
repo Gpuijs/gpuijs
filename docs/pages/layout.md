@@ -93,7 +93,7 @@ useEffect(() => {
 }, [])
 ```
 
-`ResizeObserver` is a global, or import it from `gpuijs`. The host reports an observed node's size after each layout that changes it, and an observation starts with the current size, as in the DOM. Entries have `target`, `contentRect`, `borderBoxSize` and `contentBoxSize`.
+`ResizeObserver` is a global, or import it from `@gpuijs/core`. The host reports an observed node's size after each layout that changes it, and an observation starts with the current size, as in the DOM. Entries have `target`, `contentRect`, `borderBoxSize` and `contentBoxSize`.
 
 > [!NOTE]
 > `contentRect` is the border box, not the content box: padding and borders are included. This is fine for unpadded chart and scroll containers, which is the usual use.
@@ -113,7 +113,7 @@ Set `GPUIJS_WINDOW_SIZE=1440x900` to open the window at a fixed size for screens
 [`measureText(text, style)`](api.html#measuretext) returns the width and height of one line of text, synchronously, for code that sizes text before rendering it (chart axis labels, for example):
 
 ```ts
-import { measureText } from "gpuijs"
+import { measureText } from "@gpuijs/core"
 
 measureText("Revenue", { fontSize: 12, fontWeight: 600 }) // { width: 47.4, height: 14 }
 ```

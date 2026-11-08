@@ -7,13 +7,13 @@ Your framework renders into gpuijs **host nodes**, not DOM nodes. React does it 
 Each entry point exports a `render` that renders into the app's window and opens a default one if the app hasn't created one:
 
 ```tsx
-import { render } from "gpuijs/react"
+import { render } from "@gpuijs/core/react"
 render(<App />)
 
-import { render } from "gpuijs/vue"
+import { render } from "@gpuijs/core/vue"
 render(App) // or render(createApp(App).use(router))
 
-import { render } from "gpuijs/solid"
+import { render } from "@gpuijs/core/solid"
 render(() => <App />)
 ```
 
@@ -50,7 +50,7 @@ Libraries render menus, dialogs and tooltips into `document.body` with `createPo
 
 ```tsx
 import { createPortal } from "react-dom"
-import { body } from "gpuijs/react"
+import { body } from "@gpuijs/core/react"
 
 function Modal({ children }) {
   return createPortal(<div className="fixed inset-0 grid place-items-center bg-black/40">{children}</div>, body())

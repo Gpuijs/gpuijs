@@ -1,4 +1,4 @@
-// `gpuijs/react`: a React app in the window, with the `window`/`document` React libraries expect.
+// `@gpuijs/core/react`: a React app in the window, with the `window`/`document` React libraries expect.
 // Import it first, before those libraries load.
 import "./env.js";
 import { Window } from "./native.js";

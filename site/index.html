@@ -446,7 +446,7 @@ footer { margin-top: 96px; border-top: 1px solid var(--border); }
       <a class="button primary" href="https://docs.gpuijs.dev/quick-start.html">Get started <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="button" href="https://docs.gpuijs.dev/">Read the docs</a>
     </div>
-    <div class="rise"><div class="command"><span>bun add gpuijs react</span><button class="copy-button" data-copy="bun add gpuijs react" aria-label="Copy command"><svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></div></div>
+    <div class="rise"><div class="command"><span>bun add @gpuijs/core react</span><button class="copy-button" data-copy="bun add @gpuijs/core react" aria-label="Copy command"><svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></div></div>
   </div>
 
   <div class="showcase wrap rise">
@@ -459,7 +459,7 @@ footer { margin-top: 96px; border-top: 1px solid var(--border); }
         </div>
         <div class="panel" data-fw="react">
           <div class="file">src/main.tsx</div>
-          <pre><code class="language-typescript">import { render } from "gpuijs/react"
+          <pre><code class="language-typescript">import { render } from "@gpuijs/core/react"
 import { useState } from "react"
 
 function App() {
@@ -477,7 +477,7 @@ function App() {
 render(&lt;App /&gt;)</code></pre>
         </div>
         <div class="panel" data-fw="vue" hidden>
-          <div class="file">src/App.vue · rendered with render(App) from "gpuijs/vue"</div>
+          <div class="file">src/App.vue · rendered with render(App) from "@gpuijs/core/vue"</div>
           <pre><code class="language-xml">&lt;script setup&gt;
 import { ref } from "vue"
 const todos = ref(initial)
@@ -496,7 +496,7 @@ const todos = ref(initial)
         </div>
         <div class="panel" data-fw="solid" hidden>
           <div class="file">src/main.tsx</div>
-          <pre><code class="language-typescript">import { render } from "gpuijs/solid"
+          <pre><code class="language-typescript">import { render } from "@gpuijs/core/solid"
 import { createSignal, For } from "solid-js"
 
 function App() {
@@ -647,7 +647,7 @@ render(() =&gt; &lt;App /&gt;)</code></pre>
       </div>
       <div class="codecard">
         <div class="bar"><div class="lights"><i></i><i></i><i></i></div>src/main.ts</div>
-        <pre><code class="language-typescript">import { Menu, Window, dialog } from "gpuijs"
+        <pre><code class="language-typescript">import { Menu, Window, dialog } from "@gpuijs/core"
 
 const win = new Window({
   width: 1200,

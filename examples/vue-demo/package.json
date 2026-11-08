@@ -6,7 +6,7 @@
     "dev": "gpuijs dev ."
   },
   "dependencies": {
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "vue": "^3.5"
   },
   "devDependencies": {

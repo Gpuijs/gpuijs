@@ -1,4 +1,4 @@
-// `gpuijs/vue`: a Vue app in the window. Import it before anything that loads Vue, which reads
+// `@gpuijs/core/vue`: a Vue app in the window. Import it before anything that loads Vue, which reads
 // `document` once, as it loads.
 import "./env.js";
 import { createApp } from "vue";

@@ -1,12 +1,12 @@
 # Browser environment
 
-A gpuijs app runs under Bun, not in a browser, so there's no `window` or `document`. Many libraries touch them anyway, often as soon as they load, and Vue and Solid build their UI through `document`. Every entry point (`gpuijs/react`, `gpuijs/vue`, `gpuijs/solid`) provides just enough of both, backed by the native tree:
+A gpuijs app runs under Bun, not in a browser, so there's no `window` or `document`. Many libraries touch them anyway, often as soon as they load, and Vue and Solid build their UI through `document`. Every entry point (`@gpuijs/core/react`, `@gpuijs/core/vue`, `@gpuijs/core/solid`) provides just enough of both, backed by the native tree:
 
 ```tsx
-import { render } from "gpuijs/react" // first, before anything that might touch window or document
+import { render } from "@gpuijs/core/react" // first, before anything that might touch window or document
 ```
 
-Import the entry point first in `src/main.*`. ES modules evaluate in import order, so the globals then exist before any library module runs. `gpuijs/env` sets up the same globals on its own, without `render`.
+Import the entry point first in `src/main.*`. ES modules evaluate in import order, so the globals then exist before any library module runs. `@gpuijs/core/env` sets up the same globals on its own, without `render`.
 
 > [!NOTE]
 > These globals aren't a DOM. Elements are gpuijs host nodes (see [API reference: host nodes](api.html#host-nodes)), and the environment only fills in the globals around them. Each shim exists because a real library needs it, and the source names which one.

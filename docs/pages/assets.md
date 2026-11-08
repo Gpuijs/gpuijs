@@ -107,7 +107,7 @@ The component draws the file's markup at `1em × 1em` (as svgr's `icon: true` do
 Two exports help code that handles image URLs itself:
 
 ```ts
-import { assetPath, fetchAsset } from "gpuijs"
+import { assetPath, fetchAsset } from "@gpuijs/core"
 
 assetPath("/images/a.png")                // "/abs/path/to/app/public/images/a.png", if it exists
 await fetchAsset("https://example.com/a.png") // local file path, or null on failure

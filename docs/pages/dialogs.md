@@ -9,7 +9,7 @@ Every dialog function returns a Promise. As in Electron, the first argument (the
 ### `showOpenDialog`
 
 ```tsx
-import { dialog } from "gpuijs"
+import { dialog } from "@gpuijs/core"
 
 const { canceled, filePaths } = await dialog.showOpenDialog({
   properties: ["openFile", "multiSelections"],
@@ -73,7 +73,7 @@ Node APIs (`node:fs`, `node:path`, `node:child_process`), `fetch`, `Bun.file` an
 ## `app`
 
 ```tsx
-import { app } from "gpuijs"
+import { app } from "@gpuijs/core"
 
 app.on("activate", () => win.focus()) // the Dock icon was clicked
 console.log(app.getName())

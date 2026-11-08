@@ -1,14 +1,14 @@
 # API reference
 
-Everything the `gpuijs` package exports. Apps import from their framework's entry point, which re-exports everything below:
+Everything the `@gpuijs/core` package exports. Apps import from their framework's entry point, which re-exports everything below:
 
 | Import | What it is |
 | --- | --- |
-| `gpuijs/react` | The browser environment, React's `render`, and everything below |
-| `gpuijs/vue` | The browser environment, Vue's `render`, and everything below |
-| `gpuijs/solid` | The browser environment, Solid's `render`, and everything below |
-| `gpuijs` | Everything below, without `render` or the browser environment |
-| `gpuijs/env` | Only the browser environment: a side-effect module that defines browser globals. See [Browser environment](environment.html). |
+| `@gpuijs/core/react` | The browser environment, React's `render`, and everything below |
+| `@gpuijs/core/vue` | The browser environment, Vue's `render`, and everything below |
+| `@gpuijs/core/solid` | The browser environment, Solid's `render`, and everything below |
+| `@gpuijs/core` | Everything below, without `render` or the browser environment |
+| `@gpuijs/core/env` | Only the browser environment: a side-effect module that defines browser globals. See [Browser environment](environment.html). |
 
 ```ts
 import {
@@ -18,7 +18,7 @@ import {
   setRootClass, setRootAttribute, prefersDark,
   measureText, assetPath, fetchAsset,
   Window, Menu, MenuItem, app, dialog,
-} from "gpuijs/react" // or gpuijs/vue, gpuijs/solid
+} from "@gpuijs/core/react" // or gpuijs/vue, gpuijs/solid
 ```
 
 Most of the document-like exports are what the browser environment uses to build `document` and `window`. Apps can use the globals instead.
@@ -28,11 +28,11 @@ Most of the document-like exports are what the browser environment uses to build
 ### `render`
 
 ```ts
-// gpuijs/react
+// @gpuijs/core/react
 render(element: React.ReactNode): void
-// gpuijs/vue
+// @gpuijs/core/vue
 render(app: Component | App, props?: object): App
-// gpuijs/solid
+// @gpuijs/core/solid
 render(code: () => JSX.Element): () => void
 ```
 

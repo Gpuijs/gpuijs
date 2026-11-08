@@ -28,10 +28,10 @@ Make the directory and install gpuijs with your framework (`react`, `vue` or `so
 ```sh
 mkdir hello && cd hello
 bun init -y
-bun add gpuijs react
+bun add @gpuijs/core react
 ```
 
-`bun add gpuijs` also installs the host for your Mac, `gpuijs-darwin-arm64` or `gpuijs-darwin-x64`. Add `dev` and `build` scripts to `package.json`:
+`bun add @gpuijs/core` also installs the host for your Mac, `@gpuijs/darwin-arm64` or `@gpuijs/darwin-x64`. Add `dev` and `build` scripts to `package.json`:
 
 ```json
 {
@@ -40,7 +40,7 @@ bun add gpuijs react
   "type": "module",
   "scripts": { "dev": "gpuijs dev .", "build": "gpuijs build ." },
   "dependencies": {
-    "gpuijs": "^0.1.0",
+    "@gpuijs/core": "^0.1.0",
     "react": "^19.3.0"
   }
 }
@@ -55,7 +55,7 @@ bun add gpuijs react
 `src/main.tsx` imports the framework's entry point first and renders the app. With React:
 
 ```tsx
-import { render } from "gpuijs/react"
+import { render } from "@gpuijs/core/react"
 import { useState } from "react"
 
 function App() {
@@ -79,7 +79,7 @@ render(<App />)
 With Vue, the entry is `src/main.ts` and the component lives in a `.vue` file:
 
 ```ts
-import { render } from "gpuijs/vue"
+import { render } from "@gpuijs/core/vue"
 import App from "./App.vue"
 
 render(App)
@@ -103,7 +103,7 @@ const name = ref("")
 With Solid (which also needs `babel-preset-solid`, see [Frameworks: Solid](frameworks.html#solid)):
 
 ```tsx
-import { render } from "gpuijs/solid"
+import { render } from "@gpuijs/core/solid"
 import { createSignal } from "solid-js"
 
 function App() {
@@ -137,14 +137,14 @@ A window opens with your app. `bunx gpuijs dev .` does the same without a script
 
 ### Why the entry point comes first
 
-Libraries, and Vue itself, reach for `window`, `document`, `matchMedia`, `ResizeObserver` and friends as soon as they load. The entry point (`gpuijs/react`, `gpuijs/vue` or `gpuijs/solid`) defines those globals, backed by gpuijs. Import it **before anything else**, so it runs before any library module. [Browser environment](environment.html) covers what it provides.
+Libraries, and Vue itself, reach for `window`, `document`, `matchMedia`, `ResizeObserver` and friends as soon as they load. The entry point (`@gpuijs/core/react`, `@gpuijs/core/vue` or `@gpuijs/core/solid`) defines those globals, backed by gpuijs. Import it **before anything else**, so it runs before any library module. [Browser environment](environment.html) covers what it provides.
 
 ## Open a window yourself
 
 `render` opens a default 1024×768 window. To choose the size, title bar or minimum size, create the `Window` first. It comes from the same entry point:
 
 ```tsx
-import { Window, render } from "gpuijs/react" // or gpuijs/vue, gpuijs/solid
+import { Window, render } from "@gpuijs/core/react" // or gpuijs/vue, gpuijs/solid
 import { App } from "./App"
 
 new Window({
@@ -188,7 +188,7 @@ Run an example:
 bun js/bin/gpuijs.js dev examples/shadcn-demo
 ```
 
-A window opens with a shadcn/ui page. Each example also has a `dev` script, so `cd examples/shadcn-demo && bun run dev` works too. In a checkout the CLI uses the host in `target/`, not the npm one. An app under `examples/` depends on `"gpuijs": "workspace:*"`, and the workspace links it.
+A window opens with a shadcn/ui page. Each example also has a `dev` script, so `cd examples/shadcn-demo && bun run dev` works too. In a checkout the CLI uses the host in `target/`, not the npm one. An app under `examples/` depends on `"@gpuijs/core": "workspace:*"`, and the workspace links it.
 
 ## The examples
 

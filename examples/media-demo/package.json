@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "chart.js": "4.4.7",
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   }

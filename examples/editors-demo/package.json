@@ -10,7 +10,7 @@
     "@tiptap/pm": "3.33.0",
     "@tiptap/react": "3.33.0",
     "@tiptap/starter-kit": "3.33.0",
-    "gpuijs": "workspace:*",
+    "@gpuijs/core": "workspace:*",
     "lexical": "0.53.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"

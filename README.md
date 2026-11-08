@@ -5,7 +5,7 @@ React, Vue and Solid apps rendered natively by [GPUI](https://gpui.rs). The app 
 ## Install
 
 ```sh
-bun add gpuijs react   # or vue, solid-js; the prebuilt macOS host comes with it
+bun add @gpuijs/core react   # or vue, solid-js; the prebuilt macOS host comes with it
 bunx gpuijs dev .      # runs src/main.tsx in a native window
 ```
 
@@ -24,9 +24,9 @@ bun js/bin/gpuijs.js dev examples/shadcn-demo
 An app is a directory with `src/main.{tsx,jsx,ts,js}`. It imports its framework's entry point first, which sets up the `window`/`document` libraries expect and exports `render`:
 
 ```ts
-import { render } from "gpuijs/react" // render(<App />)
-import { render } from "gpuijs/vue"   // render(App) or render(createApp(App).use(router))
-import { render } from "gpuijs/solid" // render(() => <App />)
+import { render } from "@gpuijs/core/react" // render(<App />)
+import { render } from "@gpuijs/core/vue"   // render(App) or render(createApp(App).use(router))
+import { render } from "@gpuijs/core/solid" // render(() => <App />)
 ```
 
 CSS imported from JS (and `src/app.css`) is compiled with Tailwind. Files in `public/` serve root-relative URLs (`/images/a.png`).
@@ -35,10 +35,10 @@ CSS imported from JS (and `src/app.css`) is compiled with Tailwind. Files in `pu
 
 ## Window, menus and title bar
 
-The shell API follows Electron's, with `Window` in place of `BrowserWindow`. Every entry point exports it, and plain `gpuijs` exports it alone:
+The shell API follows Electron's, with `Window` in place of `BrowserWindow`. Every entry point exports it, and plain `@gpuijs/core` exports it alone:
 
 ```tsx
-import { Menu, Window, app, dialog } from "gpuijs/react" // or gpuijs/vue, gpuijs/solid
+import { Menu, Window, app, dialog } from "@gpuijs/core/react" // or gpuijs/vue, gpuijs/solid
 
 const win = new Window({ width: 1200, height: 800, titleBarStyle: "hidden", trafficLightPosition: { x: 16, y: 18 } })
 win.on("focus", () => {})
