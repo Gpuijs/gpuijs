@@ -8,4 +8,4 @@ for arch in arm64:aarch64 x64:x86_64; do
   cargo build --release --target "${arch#*:}-apple-darwin"
   cp "target/${arch#*:}-apple-darwin/release/gpuijs" "npm/darwin-${arch%%:*}/gpuijs"
 done
-for dir in npm/darwin-arm64 npm/darwin-x64 js; do (cd "$dir" && npm publish --access public "$@"); done
+for dir in npm/darwin-arm64 npm/darwin-x64 js; do cp LICENSE "$dir/"; (cd "$dir" && npm publish --access public "$@"); done

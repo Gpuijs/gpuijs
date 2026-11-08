@@ -9,3 +9,5 @@ examples/mui-dashboard/src/shared-theme/
 .gpuijs/
 /docs/dist/
 /npm/*/gpuijs
+/npm/*/LICENSE
+/js/LICENSE

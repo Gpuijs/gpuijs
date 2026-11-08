@@ -2,6 +2,7 @@
   "name": "gpuijs-darwin-arm64",
   "version": "0.1.0",
   "description": "The gpuijs native host for macOS (arm64)",
+  "license": "MIT",
   "homepage": "https://gpuijs.dev",
   "repository": {
     "type": "git",
