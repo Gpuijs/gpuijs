@@ -1,0 +1,8 @@
+body { margin: 0; font-family: system-ui; font-size: 13px; }
+.bar { display: flex; gap: 6px; padding: 8px; align-items: center; }
+.bar button { padding: 4px 8px; }
+.list { height: 600px; overflow: auto; }
+.row { display: flex; gap: 8px; padding: 2px 8px; border-bottom: 1px solid #eee; }
+.row:hover { background: #f3f3f3; }
+.spin { width: 16px; height: 16px; background: #36c; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gpuijs</title>
+<meta name="description" content="React, Vue and Solid apps as native desktop apps, drawn on the GPU by GPUI. No browser engine, no WebView.">
+<script>try{const t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch{}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+<style>
+/* The docs theme (docs/style.css): keep these tokens in sync with it. */
+:root {
+  --bg: #fbfaf8;
+  --bg-soft: #f3f1ed;
+  --bg-code: #f5f3ef;
+  --border: #e4e0d8;
+  --text: #1d1b18;
+  --text-soft: #5e5a52;
+  --text-faint: #8b867c;
+  --accent: #c2410c;
+  --accent-2: #d97706;
+  --accent-soft: #fdeee4;
+  --tip: #15803d;
+  --warn: #b45309;
+  --tok-keyword: #a626a4;
+  --tok-string: #2f7d32;
+  --tok-number: #b35c00;
+  --tok-comment: #8b867c;
+  --tok-title: #1f5fbf;
+  --tok-attr: #9a5b00;
+  --tok-tag: #c2410c;
+  --shadow: 0 10px 30px rgb(29 27 24 / 0.12);
+  --shadow-lg: 0 1px 2px rgb(29 27 24 / 0.06), 0 24px 60px -12px rgb(29 27 24 / 0.22);
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141311;
+    --bg-soft: #1c1a17;
+    --bg-code: #1e1c19;
+    --border: #2f2c27;
+    --text: #ece8e1;
+    --text-soft: #b3ada3;
+    --text-faint: #7f796f;
+    --accent: #fb8a4c;
+    --accent-2: #fbbf24;
+    --accent-soft: #2e1d13;
+    --tip: #5fcf8a;
+    --warn: #f0b45a;
+    --tok-keyword: #d79ef0;
+    --tok-string: #9ad08a;
+    --tok-number: #f0b45a;
+    --tok-comment: #7f796f;
+    --tok-title: #7fb0ff;
+    --tok-attr: #e8c07a;
+    --tok-tag: #fb8a4c;
+    --shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+    --shadow-lg: 0 1px 2px rgb(0 0 0 / 0.4), 0 24px 60px -12px rgb(0 0 0 / 0.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141311;
+  --bg-soft: #1c1a17;
+  --bg-code: #1e1c19;
+  --border: #2f2c27;
+  --text: #ece8e1;
+  --text-soft: #b3ada3;
+  --text-faint: #7f796f;
+  --accent: #fb8a4c;
+  --accent-2: #fbbf24;
+  --accent-soft: #2e1d13;
+  --tip: #5fcf8a;
+  --warn: #f0b45a;
+  --tok-keyword: #d79ef0;
+  --tok-string: #9ad08a;
+  --tok-number: #f0b45a;
+  --tok-comment: #7f796f;
+  --tok-title: #7fb0ff;
+  --tok-attr: #e8c07a;
+  --tok-tag: #fb8a4c;
+  --shadow: 0 10px 30px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 1px 2px rgb(0 0 0 / 0.4), 0 24px 60px -12px rgb(0 0 0 / 0.7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+svg.icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* Top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner { display: flex; align-items: center; gap: 24px; max-width: 1160px; height: 60px; margin: 0 auto; padding: 0 24px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; color: var(--text); letter-spacing: -0.01em; }
+.brand:hover { text-decoration: none; }
+.logo {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: conic-gradient(from 210deg, #f97316, #facc15, #22d3ee, #6366f1, #f97316);
+  box-shadow: inset 0 0 0 5px var(--bg);
+  outline: 1.5px solid var(--text);
+}
+.topbar nav { display: flex; gap: 22px; margin-right: auto; font-size: 14.5px; }
+.topbar nav a { color: var(--text-soft); }
+.topbar nav a:hover { color: var(--text); text-decoration: none; }
+.theme-button {
+  display: grid; place-items: center; width: 36px; height: 36px;
+  color: var(--text-soft); background: none;
+  border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+}
+.theme-button:hover { color: var(--text); background: var(--bg-soft); }
+.theme-button svg { width: 17px; height: 17px; }
+
+/* Buttons */
+.button {
+  display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px;
+  font-weight: 600; font-size: 15px; color: var(--text);
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.button:hover { text-decoration: none; border-color: color-mix(in srgb, var(--accent) 60%, var(--border)); transform: translateY(-1px); }
+.button.primary {
+  color: #fff; background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 88%, #fff), var(--accent));
+  border-color: var(--accent);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.25) inset, 0 8px 20px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+:root[data-theme="dark"] .button.primary { color: #1a0e07; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .button.primary { color: #1a0e07; } }
+.button.small { height: 34px; padding: 0 14px; font-size: 14px; border-radius: 8px; }
+.button svg { width: 16px; height: 16px; }
+
+/* Layout */
+.wrap { max-width: 1160px; margin: 0 auto; padding-inline: 24px; }
+section { padding-block: 80px; }
+.section-head { max-width: 640px; margin: 0 auto 48px; text-align: center; }
+.kicker { margin: 0 0 10px; font-size: 13px; font-weight: 600; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+h1, h2, h3 { margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+h2 { font-size: 40px; line-height: 1.12; letter-spacing: -0.03em; font-weight: 750; }
+h3 { font-size: 17px; line-height: 1.35; }
+p { margin: 0; text-wrap: pretty; }
+.section-head p:last-child { margin-top: 14px; font-size: 18px; color: var(--text-soft); }
+code { font: 0.86em/1.5 var(--mono); padding: 0.12em 0.38em; background: var(--bg-code); border: 1px solid var(--border); border-radius: 5px; }
+
+/* Hero */
+.hero { position: relative; padding-block: 104px 56px; text-align: center; isolation: isolate; overflow-x: clip; }
+.hero::before {
+  content: ""; position: absolute; inset: -60px 0 0; z-index: -1;
+  background-image: radial-gradient(color-mix(in srgb, var(--text) 14%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 30%, transparent 75%);
+}
+.hero::after {
+  content: ""; position: absolute; left: 50%; top: -120px; z-index: -1;
+  width: 900px; height: 520px; transform: translateX(-50%);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
+  filter: blur(20px);
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 10px; padding: 5px 14px 5px 6px;
+  font-size: 13.5px; color: var(--text-soft);
+  background: color-mix(in srgb, var(--bg) 70%, transparent); border: 1px solid var(--border); border-radius: 999px;
+}
+.badge:hover { text-decoration: none; color: var(--text); border-color: color-mix(in srgb, var(--accent) 50%, var(--border)); }
+.badge b { padding: 1px 9px; font-size: 12px; font-weight: 650; color: var(--accent); background: var(--accent-soft); border-radius: 999px; }
+.hero h1 { max-width: 900px; margin: 26px auto 22px; font-size: clamp(42px, 7vw, 76px); line-height: 1.02; letter-spacing: -0.045em; font-weight: 800; }
+.grad { background: linear-gradient(95deg, var(--accent) 10%, var(--accent-2) 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .lead { max-width: 640px; margin: 0 auto; font-size: 19.5px; line-height: 1.6; color: var(--text-soft); }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
+.command {
+  display: inline-flex; align-items: center; gap: 14px; max-width: 100%; margin-top: 22px; padding: 6px 6px 6px 16px;
+  font: 13.5px/1 var(--mono); color: var(--text-soft);
+  background: var(--bg-code); border: 1px solid var(--border); border-radius: 10px;
+}
+.command span { overflow-x: auto; white-space: nowrap; }
+.command span::before { content: "$ "; color: var(--accent); }
+.copy-button {
+  display: grid; place-items: center; width: 30px; height: 30px; flex: none;
+  color: var(--text-faint); background: var(--bg); border: 1px solid var(--border); border-radius: 7px; cursor: pointer;
+}
+.copy-button:hover { color: var(--text); }
+.copy-button svg { width: 15px; height: 15px; }
+.copy-button[data-state="done"] { color: var(--tip); border-color: var(--tip); }
+
+/* Showcase: code beside the window it makes */
+.showcase { position: relative; padding-block: 24px 40px; }
+.stage {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 0;
+  border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+  background: var(--bg-soft); box-shadow: var(--shadow-lg);
+}
+.editor { display: flex; flex-direction: column; min-width: 0; background: var(--bg-code); border-right: 1px solid var(--border); }
+.tabs { display: flex; gap: 2px; padding: 10px 6px 0; border-bottom: 1px solid var(--border); }
+.tab {
+  display: flex; align-items: center; gap: 8px; padding: 9px 14px 10px;
+  font: 600 13.5px/1 var(--sans); color: var(--text-faint);
+  background: none; border: 0; border-radius: 8px 8px 0 0; cursor: pointer; position: relative;
+}
+.tab:hover { color: var(--text); }
+.tab[aria-selected="true"] { color: var(--text); background: var(--bg-soft); }
+.tab[aria-selected="true"]::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: -1px; height: 2px; background: var(--accent); border-radius: 2px; }
+.tab i { width: 8px; height: 8px; border-radius: 50%; }
+.file { padding: 12px 20px 0; font: 12px var(--mono); color: var(--text-faint); }
+.editor pre { flex: 1; margin: 0; padding: 12px 20px 24px; overflow-x: auto; }
+.editor code { padding: 0; background: none; border: 0; font-size: 13.5px; line-height: 1.7; }
+.preview { display: grid; place-items: center; padding: 40px 32px; position: relative;
+  background:
+    radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%),
+    radial-gradient(circle at 80% 90%, color-mix(in srgb, #6366f1 16%, transparent), transparent 50%),
+    var(--bg-soft);
+}
+.window {
+  width: 100%; max-width: 400px; background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.titlebar { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px; border-bottom: 1px solid var(--border); background: var(--bg-soft); }
+.lights { display: flex; gap: 7px; }
+.lights i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.15); }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+.titlebar span { flex: 1; margin-right: 47px; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-soft); }
+.todo { display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 24px; }
+.todo h4 { margin: 0; font-size: 24px; font-weight: 700; color: #4f46e5; }
+:root[data-theme="dark"] .todo h4 { color: #a5b4fc; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .todo h4 { color: #a5b4fc; } }
+.todo input[type="text"] {
+  height: 38px; padding: 0 12px; font: inherit; font-size: 14.5px; color: var(--text);
+  background: var(--bg); border: 1px solid var(--border); border-radius: 7px;
+}
+.todo input[type="text"]:focus { outline: 2px solid color-mix(in srgb, #6366f1 50%, transparent); outline-offset: 0; border-color: #6366f1; }
+.todo ul { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.todo li { display: flex; align-items: center; gap: 10px; font-size: 14.5px; }
+.todo li label { flex: 1; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.todo li input { width: 16px; height: 16px; accent-color: #4f46e5; margin: 0; }
+.todo li input:checked + span { color: var(--text-faint); text-decoration: line-through; }
+.todo li button { padding: 0; font: inherit; font-size: 13px; color: #dc2626; background: none; border: 0; cursor: pointer; }
+.todo .left { font-size: 13px; color: var(--text-faint); }
+.caption { margin-top: 18px; text-align: center; font-size: 14px; color: var(--text-faint); }
+
+/* Libraries */
+.libraries { padding-block: 40px 24px; text-align: center; }
+.libraries p { font-size: 14px; color: var(--text-faint); }
+.pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 860px; margin: 18px auto 0; }
+.pills span { padding: 6px 14px; font-size: 14px; font-weight: 550; color: var(--text-soft); background: var(--bg-soft); border: 1px solid var(--border); border-radius: 999px; }
+
+/* Comparison */
+.compare { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.option { display: flex; flex-direction: column; padding: 24px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-soft); }
+.option .label { font-size: 13px; font-weight: 600; color: var(--text-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+.option h3 { margin: 10px 0 8px; font-size: 21px; }
+.option p { font-size: 15px; color: var(--text-soft); }
+.stack { display: flex; flex-direction: column; gap: 6px; margin-top: auto; padding-top: 24px; }
+.stack span { padding: 8px 12px; font: 12.5px var(--mono); color: var(--text-soft); background: var(--bg); border: 1px solid var(--border); border-radius: 7px; }
+.stack span.heavy { border-style: dashed; color: var(--text-faint); }
+.option.us { position: relative; background: var(--bg); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); box-shadow: 0 0 0 4px var(--accent-soft), var(--shadow); }
+.option.us .label { color: var(--accent); }
+.option.us .stack span.native { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); background: var(--accent-soft); }
+
+/* How it works: two processes and the pipe between them */
+.flow { display: grid; grid-template-columns: minmax(0, 1fr) 140px minmax(0, 1fr); }
+.proc { padding: 24px 28px 8px; border: 1px solid var(--border); border-radius: 16px; background: var(--bg-soft); }
+.proc.host { background: var(--bg); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); box-shadow: 0 0 0 4px var(--accent-soft); }
+.proc-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; margin-bottom: 22px; border-bottom: 1px solid var(--border); }
+.proc-head h3 { font-size: 19px; }
+.proc-head span { padding: 2px 10px; font: 600 12.5px/1.6 var(--mono); color: var(--text-soft); background: var(--bg); border: 1px solid var(--border); border-radius: 999px; }
+.proc.host .proc-head span { color: var(--accent); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+.proc ol { margin: 0; padding: 0; list-style: none; counter-reset: step var(--start, 0); }
+.proc.host ol { --start: 3; }
+.proc li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 14px; padding-bottom: 22px; counter-increment: step; }
+.proc li::before {
+  content: counter(step); grid-row: span 2; display: grid; place-items: center; width: 28px; height: 28px;
+  font: 600 12.5px var(--mono); color: var(--text-soft); background: var(--bg); border: 1px solid var(--border); border-radius: 50%;
+}
+.proc.host li::before { color: var(--accent); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
+.proc li:not(:last-child)::after { content: ""; position: absolute; left: 13.5px; top: 34px; bottom: 6px; width: 1px; background: var(--border); }
+.proc h4 { margin: 3px 0 2px; font-size: 15.5px; letter-spacing: -0.01em; }
+.proc li p { font-size: 14.5px; line-height: 1.5; color: var(--text-soft); }
+.pipe { display: flex; flex-direction: column; justify-content: center; gap: 26px; padding: 0 14px; }
+.lane { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; font: 600 12px var(--mono); color: var(--accent); }
+.lane i {
+  position: relative; width: 100%; height: 2px;
+  background: repeating-linear-gradient(90deg, currentColor 0 6px, transparent 6px 12px);
+}
+.lane i::after {
+  content: ""; position: absolute; right: -1px; top: 50%; width: 7px; height: 7px;
+  border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: translateY(-50%) rotate(45deg);
+}
+.lane.back { flex-direction: column-reverse; color: var(--text-faint); }
+.lane.back i::after { right: auto; left: -1px; transform: translateY(-50%) rotate(-135deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .lane i { animation: flow 0.9s linear infinite; }
+  .lane.back i { animation-direction: reverse; }
+  @keyframes flow { to { background-position: 12px 0; } }
+}
+
+/* Features */
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.feature { padding: 28px; background: var(--bg); transition: background 0.2s; }
+.feature:hover { background: var(--bg-soft); }
+.feature .ico { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 18px; color: var(--accent); background: var(--accent-soft); border-radius: 10px; }
+.feature p { margin-top: 8px; font-size: 15px; color: var(--text-soft); }
+
+/* Shell API */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 64px; align-items: center; }
+.split .copy-text { max-width: 480px; }
+.split .copy-text > p:not(.kicker) { margin-top: 16px; font-size: 17px; color: var(--text-soft); }
+.checks { display: flex; flex-direction: column; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; }
+.checks li { display: flex; gap: 10px; font-size: 15.5px; }
+.checks svg { width: 18px; height: 18px; margin-top: 4px; color: var(--tip); }
+.codecard { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg-code); box-shadow: var(--shadow); }
+.codecard .bar { display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 16px; border-bottom: 1px solid var(--border); font: 12px var(--mono); color: var(--text-faint); }
+.codecard .lights i { width: 10px; height: 10px; background: var(--border); box-shadow: none; }
+.codecard pre { margin: 0; padding: 18px 20px 22px; overflow-x: auto; }
+.codecard code { padding: 0; background: none; border: 0; font-size: 13.5px; line-height: 1.7; }
+
+/* Platforms */
+.platforms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.platform { display: flex; align-items: center; gap: 16px; padding: 24px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-soft); }
+.platform svg { width: 30px; height: 30px; color: var(--text); fill: currentColor; stroke: none; }
+.platform h3 { font-size: 17px; }
+.status { display: inline-flex; align-items: center; gap: 7px; margin-top: 3px; font-size: 13.5px; color: var(--text-soft); }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tip); box-shadow: 0 0 0 3px color-mix(in srgb, var(--tip) 22%, transparent); }
+.platform.soon { border-style: dashed; background: none; }
+.platform.soon svg { color: var(--text-faint); }
+.platform.soon .status::before { background: var(--warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 22%, transparent); animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.35; } }
+.note { max-width: 680px; margin: 28px auto 0; text-align: center; font-size: 15px; color: var(--text-faint); }
+
+/* Closing call */
+.cta {
+  position: relative; overflow: hidden; padding: 72px 32px; text-align: center;
+  border: 1px solid var(--border); border-radius: 16px; background: var(--bg-soft); isolation: isolate;
+}
+.cta::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(ellipse 60% 80% at 50% 0%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 70%);
+}
+.cta h2 { font-size: 40px; }
+.cta p { max-width: 520px; margin: 14px auto 0; font-size: 18px; color: var(--text-soft); }
+
+footer { margin-top: 96px; border-top: 1px solid var(--border); }
+.footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; max-width: 1160px; margin: 0 auto; padding: 32px 24px 48px; font-size: 14px; color: var(--text-faint); }
+.footer-inner nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.footer-inner a { color: var(--text-soft); }
+
+.hljs-keyword, .hljs-built_in, .hljs-literal { color: var(--tok-keyword); }
+.hljs-string { color: var(--tok-string); }
+.hljs-number { color: var(--tok-number); }
+.hljs-comment, .hljs-meta { color: var(--tok-comment); font-style: italic; }
+.hljs-title, .hljs-title.function_ { color: var(--tok-title); }
+.hljs-attr, .hljs-attribute, .hljs-property, .hljs-params { color: var(--tok-attr); }
+.hljs-tag, .hljs-name, .hljs-type, .hljs-title.class_ { color: var(--tok-tag); }
+
+/* Entrance: the hero settles in once */
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .rise:nth-child(2) { animation-delay: 0.06s; }
+  .rise:nth-child(3) { animation-delay: 0.12s; }
+  .rise:nth-child(4) { animation-delay: 0.18s; }
+  .rise:nth-child(5) { animation-delay: 0.24s; }
+  .showcase.rise { animation-delay: 0.32s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+}
+
+@media (max-width: 960px) {
+  .stage, .split { grid-template-columns: minmax(0, 1fr); }
+  .editor { border-right: 0; border-bottom: 1px solid var(--border); }
+  .compare, .platforms { grid-template-columns: minmax(0, 1fr); }
+  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .split { gap: 32px; }
+}
+@media (max-width: 840px) {
+  /* The processes stack, and the pipe turns to run between them vertically. */
+  .flow { grid-template-columns: minmax(0, 1fr); }
+  .pipe { flex-direction: row; justify-content: center; gap: 48px; padding: 22px 0; }
+  .lane { flex-direction: row; }
+  .lane.back { flex-direction: row-reverse; }
+  .lane i { width: 2px; height: 56px; background: repeating-linear-gradient(180deg, currentColor 0 6px, transparent 6px 12px); }
+  .lane i::after { top: auto; right: auto; bottom: -1px; left: 50%; transform: translateX(-50%) rotate(135deg); }
+  .lane.back i::after { top: -1px; bottom: auto; left: 50%; transform: translateX(-50%) rotate(-45deg); }
+  @media (prefers-reduced-motion: no-preference) {
+    .lane i { animation-name: flow-down; }
+    @keyframes flow-down { to { background-position: 0 12px; } }
+  }
+}
+@media (max-width: 640px) {
+  .topbar-inner { padding: 0 16px; gap: 14px; }
+  .topbar nav .wide, .topbar .button { display: none; }
+  .wrap { padding-inline: 16px; }
+  section { padding-block: 64px; }
+  .hero { padding-block: 64px 40px; }
+  .hero .lead { font-size: 17.5px; }
+  h2 { font-size: 30px; }
+  .cta { padding: 52px 20px; }
+  .footer-inner { padding: 28px 16px 40px; }
+  .features { grid-template-columns: minmax(0, 1fr); }
+  .proc { padding-inline: 20px; }
+  .badge { padding: 5px 14px; font-size: 12.5px; }
+  .badge b { display: none; }
+  .preview { padding: 28px 16px; }
+  .section-head { margin-bottom: 36px; }
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="/"><span class="logo" aria-hidden="true"></span>gpuijs</a>
+    <nav aria-label="Site">
+      <a href="https://docs.gpuijs.dev/">Docs</a>
+      <a class="wide" href="#how">How it works</a>
+      <a class="wide" href="https://docs.gpuijs.dev/quick-start.html#the-examples">Examples</a>
+    </nav>
+    <button class="theme-button" aria-label="Toggle dark mode"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+    <a class="button small primary" href="https://docs.gpuijs.dev/quick-start.html">Get started</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero wrap">
+    <a class="badge rise" href="#platforms"><b>Preview</b>macOS today · Windows and Linux in progress</a>
+    <h1 class="rise">Your web app, drawn <span class="grad">natively on the GPU.</span></h1>
+    <p class="lead rise">gpuijs runs React, Vue and Solid apps as native desktop apps through <a href="https://gpui.rs">GPUI</a>, the UI framework behind the Zed editor. Keep your components and your CSS. Ship no browser engine and no WebView.</p>
+    <div class="actions rise">
+      <a class="button primary" href="https://docs.gpuijs.dev/quick-start.html">Get started <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="button" href="https://docs.gpuijs.dev/">Read the docs</a>
+    </div>
+    <div class="rise"><div class="command"><span>bun add gpuijs react</span><button class="copy-button" data-copy="bun add gpuijs react" aria-label="Copy command"><svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg></button></div></div>
+  </div>
+
+  <div class="showcase wrap rise">
+    <div class="stage">
+      <div class="editor">
+        <div class="tabs" role="tablist" aria-label="Framework">
+          <button class="tab" role="tab" aria-selected="true" data-fw="react"><i style="background:#22d3ee"></i>React</button>
+          <button class="tab" role="tab" aria-selected="false" data-fw="vue"><i style="background:#42b883"></i>Vue</button>
+          <button class="tab" role="tab" aria-selected="false" data-fw="solid"><i style="background:#4f88c6"></i>Solid</button>
+        </div>
+        <div class="panel" data-fw="react">
+          <div class="file">src/main.tsx</div>
+          <pre><code class="language-typescript">import { render } from "gpuijs/react"
+import { useState } from "react"
+
+function App() {
+  const [todos, setTodos] = useState(initial)
+  return (
+    &lt;main className="flex flex-col gap-3 p-6"&gt;
+      &lt;h1 className="title"&gt;Todos&lt;/h1&gt;
+      {todos.map((todo) =&gt; (
+        &lt;Todo key={todo.id} todo={todo} /&gt;
+      ))}
+    &lt;/main&gt;
+  )
+}
+
+render(&lt;App /&gt;)</code></pre>
+        </div>
+        <div class="panel" data-fw="vue" hidden>
+          <div class="file">src/App.vue · rendered with render(App) from "gpuijs/vue"</div>
+          <pre><code class="language-xml">&lt;script setup&gt;
+import { ref } from "vue"
+const todos = ref(initial)
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main class="flex flex-col gap-3 p-6"&gt;
+    &lt;h1 class="title"&gt;Todos&lt;/h1&gt;
+    &lt;Todo
+      v-for="todo in todos"
+      :key="todo.id"
+      :todo="todo"
+    /&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+        </div>
+        <div class="panel" data-fw="solid" hidden>
+          <div class="file">src/main.tsx</div>
+          <pre><code class="language-typescript">import { render } from "gpuijs/solid"
+import { createSignal, For } from "solid-js"
+
+function App() {
+  const [todos, setTodos] = createSignal(initial)
+  return (
+    &lt;main class="flex flex-col gap-3 p-6"&gt;
+      &lt;h1 class="title"&gt;Todos&lt;/h1&gt;
+      &lt;For each={todos()}&gt;
+        {(todo) =&gt; &lt;Todo todo={todo} /&gt;}
+      &lt;/For&gt;
+    &lt;/main&gt;
+  )
+}
+
+render(() =&gt; &lt;App /&gt;)</code></pre>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="window" aria-label="Example app window">
+          <div class="titlebar"><div class="lights"><i></i><i></i><i></i></div><span id="win-title">react-demo</span></div>
+          <form class="todo" id="todo">
+            <h4>Todos</h4>
+            <input type="text" placeholder="What needs doing?" aria-label="New todo">
+            <ul id="todo-list"></ul>
+            <p class="left" id="todo-left"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <p class="caption">One app, three frameworks. Try the window: it's the todo list from the Vue and Solid examples.</p>
+  </div>
+
+  <div class="libraries wrap">
+    <p>Runs the libraries you already use</p>
+    <div class="pills">
+      <span>Tailwind CSS v4</span><span>shadcn/ui</span><span>Radix UI</span><span>Base UI</span><span>MUI</span><span>Emotion</span><span>Recharts</span><span>TanStack Query</span><span>TanStack Table</span><span>react-router</span><span>floating-ui</span><span>dnd-kit</span><span>cmdk</span><span>sonner</span><span>zod</span>
+    </div>
+  </div>
+
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">No browser inside</p>
+      <h2>Not Chromium. Not a WebView.</h2>
+      <p>Electron ships a browser with every app, and Tauri borrows the system's. gpuijs ships neither: your CSS is cascaded, laid out and drawn by a native host.</p>
+    </div>
+    <div class="compare">
+      <div class="option">
+        <div class="label">Electron</div>
+        <h3>Bundles Chromium</h3>
+        <p>Your UI is a web page, rendered by a full browser engine packaged into the app.</p>
+        <div class="stack"><span>your app</span><span class="heavy">Chromium</span><span>Node.js</span></div>
+      </div>
+      <div class="option">
+        <div class="label">Tauri</div>
+        <h3>Uses the system WebView</h3>
+        <p>Your UI is a web page, rendered by the operating system's web engine (WKWebView on macOS).</p>
+        <div class="stack"><span>your app</span><span class="heavy">system WebView</span><span>Rust core</span></div>
+      </div>
+      <div class="option us">
+        <div class="label">gpuijs</div>
+        <h3>No web engine at all</h3>
+        <p>Your framework runs under Bun. A Rust host built on GPUI runs your CSS and draws every frame with Metal.</p>
+        <div class="stack"><span>your app, under Bun</span><span class="native">native CSS + layout (Rust)</span><span class="native">GPUI · Metal</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="how">
+    <div class="section-head">
+      <p class="kicker">How it works</p>
+      <h2>From component to pixel</h2>
+      <p>Two processes and a pipe. Events take the same path back, with browser-like capture and bubbling.</p>
+    </div>
+    <div class="flow">
+      <div class="proc">
+        <div class="proc-head"><h3>The app</h3><span>Bun</span></div>
+        <ol>
+          <li><h4>Your components</h4><p>React, Vue or Solid, unchanged.</p></li>
+          <li><h4>Host nodes</h4><p>Lightweight nodes stand in for the DOM.</p></li>
+          <li><h4>Commit</h4><p>Each batch of changes is encoded as compact binary ops.</p></li>
+        </ol>
+      </div>
+      <div class="pipe" aria-label="The pipe between the processes">
+        <div class="lane"><span>ops</span><i></i></div>
+        <div class="lane back"><span>events</span><i></i></div>
+      </div>
+      <div class="proc host">
+        <div class="proc-head"><h3>The host</h3><span>Rust</span></div>
+        <ol start="4">
+          <li><h4>CSS cascade</h4><p>Your stylesheet, run over a mirror of the tree.</p></li>
+          <li><h4>Layout</h4><p>Flexbox, grid and block layout.</p></li>
+          <li><h4>Pixels</h4><p>Drawn with Metal through GPUI.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="section-head">
+      <p class="kicker">What you get</p>
+      <h2>The web platform your app uses, made native</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="ico"><svg class="icon" viewBox="0 0 24 24"><path d="M8 4H6a2 2 0 0 0-2 2v4l-2 2 2 2v4a2 2 0 0 0 2 2h2M16 4h2a2 2 0 0 1 2 2v4l2 2-2 2v4a2 2 0 0 1-2 2h-2"/></svg></div>
+        <h3>Real CSS</h3>
+        <p>Selectors, cascade layers, custom properties, <code>calc()</code>, media and container queries, <code>:has()</code>, transitions and keyframes. Tailwind v4 is compiled for you.</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h.01M7 10v4"/></svg></div>
+        <h3>Native text fields</h3>
+        <p>Inputs are native GPUI fields with IME and dead keys, so typing never waits on JavaScript.</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg></div>
+        <h3>Electron-style shell</h3>
+        <p><code>Window</code>, <code>Menu</code>, <code>app</code> and <code>dialog</code>, with Electron's names. Custom title bars with <code>app-region</code>.</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg class="icon" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5zM3 13l9 5 9-5M3 17.5l9 5 9-5"/></svg></div>
+        <h3>Your libraries</h3>
+        <p>Enough of <code>window</code> and <code>document</code> for Radix, MUI, Recharts, ApexCharts, react-router and more.</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg class="icon" viewBox="0 0 24 24"><path d="M21 8l-9-5-9 5 9 5zM3 8v8l9 5 9-5V8M12 13v8"/></svg></div>
+        <h3>One-command packaging</h3>
+        <p><code>gpuijs build</code> writes a signed <code>.app</code>, ready to notarize.</p>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg class="icon" viewBox="0 0 24 24"><path d="M4 18V6M4 18h16M8 14l3-4 3 3 5-6"/></svg></div>
+        <h3>Charts and SVG</h3>
+        <p>Inline SVG is rasterized sharp at any scale, and hit-tested by shape for chart tooltips.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="split">
+      <div class="copy-text">
+        <p class="kicker">Native shell</p>
+        <h2>The desktop APIs you know from Electron</h2>
+        <p>Windows, menus, dialogs and the Dock use Electron's names and shapes, carried out with native AppKit through GPUI.</p>
+        <ul class="checks">
+          <li><svg class="icon" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Hidden title bars with placed traffic lights</li>
+          <li><svg class="icon" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Application, Dock and context menus with accelerators</li>
+          <li><svg class="icon" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>Open, save and message dialogs</li>
+        </ul>
+      </div>
+      <div class="codecard">
+        <div class="bar"><div class="lights"><i></i><i></i><i></i></div>src/main.ts</div>
+        <pre><code class="language-typescript">import { Menu, Window, dialog } from "gpuijs"
+
+const win = new Window({
+  width: 1200,
+  height: 800,
+  titleBarStyle: "hidden",
+  trafficLightPosition: { x: 16, y: 18 },
+})
+
+Menu.setApplicationMenu(
+  Menu.buildFromTemplate([
+    { role: "appMenu" },
+    { label: "File", submenu: [
+      { label: "Open…", accelerator: "CmdOrCtrl+O",
+        click: () =&gt; dialog.showOpenDialog(win) },
+    ] },
+    { role: "editMenu" },
+  ]),
+)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="platforms">
+    <div class="section-head">
+      <p class="kicker">Platforms</p>
+      <h2>macOS today. Windows and Linux next.</h2>
+      <p>gpuijs is early software. It runs on macOS now, and support for Windows and Linux is in progress.</p>
+    </div>
+    <div class="platforms">
+      <div class="platform">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.6 1.2-.1 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.5 1-1.4 1.3-2.7 1.4-2.8-.1 0-2.6-1-2.6-4.2zM14 5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg>
+        <div><h3>macOS</h3><div class="status">Available in preview</div></div>
+      </div>
+      <div class="platform soon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5l7.4-1v7.1H3zM11.3 4.4L21 3v8.6h-9.7zM3 12.4h7.4v7.1l-7.4-1zM11.3 12.4H21V21l-9.7-1.4z"/></svg>
+        <div><h3>Windows</h3><div class="status">In progress</div></div>
+      </div>
+      <div class="platform soon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-2.2 0-3.6 1.9-3.6 4.6 0 1.4.3 2.3-.5 3.6-.9 1.4-2.9 3.9-2.9 6.6 0 .6.1 1.1.3 1.6-.7.3-1.6.7-1.6 1.5 0 1 1.6 1.2 3.2 1.6 1 .3 1.7.6 2.4.6.8 0 1.3-.4 1.8-.8h1.8c.5.4 1 .8 1.8.8.7 0 1.4-.3 2.4-.6 1.6-.4 3.2-.6 3.2-1.6 0-.8-.9-1.2-1.6-1.5.2-.5.3-1 .3-1.6 0-2.7-2-5.2-2.9-6.6-.8-1.3-.5-2.2-.5-3.6C15.6 3.9 14.2 2 12 2zm-1.6 4.2c.5 0 .8.6.8 1.2s-.3 1-.7 1c-.5 0-.8-.5-.8-1.1 0-.6.3-1.1.7-1.1zm3.2 0c.4 0 .7.5.7 1.1 0 .6-.3 1.1-.8 1.1-.4 0-.7-.4-.7-1s.3-1.2.8-1.2zM12 9.6c.9 0 2 .6 2 1 0 .5-1.1 1.2-2 1.2s-2-.7-2-1.2c0-.4 1.1-1 2-1z"/></svg>
+        <div><h3>Linux</h3><div class="status">In progress</div></div>
+      </div>
+    </div>
+    <p class="note">An app has one window for now, and gpuijs is not a browser: WebGL, iframes and <code>contentEditable</code> don't work. <a href="https://docs.gpuijs.dev/troubleshooting.html">See the known gaps</a>.</p>
+  </section>
+
+  <div class="wrap">
+    <div class="cta">
+      <h2>Build your first native app</h2>
+      <p>Start from an example, or bring the app you already have.</p>
+      <div class="actions">
+        <a class="button primary" href="https://docs.gpuijs.dev/quick-start.html">Read the quick start <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="button" href="https://docs.gpuijs.dev/frameworks.html">Pick a framework</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <a class="brand" href="/"><span class="logo" aria-hidden="true"></span>gpuijs</a>
+    <nav aria-label="Footer">
+      <a href="https://docs.gpuijs.dev/">Docs</a>
+      <a href="https://docs.gpuijs.dev/quick-start.html">Quick start</a>
+      <a href="https://docs.gpuijs.dev/frameworks.html">Frameworks</a>
+      <a href="https://docs.gpuijs.dev/architecture.html">Architecture</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+const root = document.documentElement
+document.querySelector(".theme-button").addEventListener("click", () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches
+  root.dataset.theme = dark ? "light" : "dark"
+  try {
+    localStorage.setItem("theme", root.dataset.theme)
+  } catch {}
+})
+
+// Framework tabs: swap the code; the window stays the same app.
+const tabs = document.querySelectorAll(".tab")
+for (const tab of tabs) {
+  tab.addEventListener("click", () => {
+    for (const t of tabs) t.setAttribute("aria-selected", String(t === tab))
+    for (const p of document.querySelectorAll(".panel")) p.hidden = p.dataset.fw !== tab.dataset.fw
+    document.getElementById("win-title").textContent = `${tab.dataset.fw}-demo`
+  })
+}
+
+// The window's todo list, working.
+const todos = [
+  { text: "Render with GPUI", done: true },
+  { text: "Try a scoped style", done: false },
+  { text: "Ship the .app", done: false },
+]
+const list = document.getElementById("todo-list")
+const left = document.getElementById("todo-left")
+function draw() {
+  list.replaceChildren(
+    ...todos.map((todo, i) => {
+      const li = document.createElement("li")
+      const label = document.createElement("label")
+      const box = document.createElement("input")
+      box.type = "checkbox"
+      box.checked = todo.done
+      box.addEventListener("change", () => {
+        todo.done = box.checked
+        draw()
+      })
+      const text = document.createElement("span")
+      text.textContent = todo.text
+      label.append(box, text)
+      const remove = document.createElement("button")
+      remove.type = "button"
+      remove.textContent = "Remove"
+      remove.addEventListener("click", () => {
+        todos.splice(i, 1)
+        draw()
+      })
+      li.append(label, remove)
+      return li
+    }),
+  )
+  const n = todos.filter((t) => !t.done).length
+  left.textContent = todos.length ? `${n} left` : "Nothing to do."
+}
+document.getElementById("todo").addEventListener("submit", (e) => {
+  e.preventDefault()
+  const input = e.target.querySelector("input[type=text]")
+  const text = input.value.trim()
+  if (!text) return
+  todos.push({ text, done: false })
+  input.value = ""
+  draw()
+})
+draw()
+
+async function copy(text, button) {
+  try {
+    await navigator.clipboard.writeText(text)
+    button.dataset.state = "done"
+  } catch {}
+  setTimeout(() => delete button.dataset.state, 1500)
+}
+document.querySelector(".copy-button").addEventListener("click", (e) => copy(e.currentTarget.dataset.copy, e.currentTarget))
+
+// Highlighting, once highlight.js loads; offline, the code stays plain.
+addEventListener("DOMContentLoaded", () => {
+  if (window.hljs) for (const code of document.querySelectorAll("pre code")) window.hljs.highlightElement(code)
+})
+</script>
+</body>
+</html>

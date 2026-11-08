@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src/*"],
+      "next": ["./src/gpuijs/next/index.ts"],
+      "next/link": ["./src/gpuijs/next/link.tsx"],
+      "next/image": ["./src/gpuijs/next/image.tsx"],
+      "next/navigation": ["./src/gpuijs/next/navigation.ts"],
+      "next/headers": ["./src/gpuijs/next/headers.ts"],
+      "next/font/google": ["./src/gpuijs/next/font-google.ts"],
+      "nextjs-toploader": ["./src/gpuijs/toploader.tsx"],
+      "nuqs/server": ["./src/gpuijs/nuqs-server.ts"],
+      "nuqs/adapters/next/app": ["./src/gpuijs/nuqs-adapter.ts"],
+      "@tanstack/react-query-devtools": ["./src/gpuijs/query-devtools.ts"],
+      "@clerk/nextjs": ["./src/gpuijs/clerk.tsx"],
+      "@clerk/nextjs/server": ["./src/gpuijs/clerk-server.ts"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["src/app/api", "src/instrumentation.ts", "src/instrumentation-client.ts", "src/proxy.ts"]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "solid-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "gpuijs dev ."
+  },
+  "dependencies": {
+    "gpuijs": "workspace:*",
+    "solid-js": "^1.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7",
+    "@babel/preset-typescript": "^7",
+    "babel-preset-solid": "^1.9",
+    "tailwindcss": "^4"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "gpuijs-workspace",
+  "private": true,
+  "workspaces": ["js", "npm/*", "examples/*"],
+  "scripts": { "dev": "bun docs/dev.ts", "docs": "bun docs/build.ts" }
+}

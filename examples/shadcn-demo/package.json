@@ -1,0 +1,24 @@
+{
+  "name": "shadcn-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "gpuijs dev .",
+    "web": "bun web/index.html"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2",
+    "@radix-ui/react-separator": "^1",
+    "@radix-ui/react-slot": "^1",
+    "class-variance-authority": "^0.7",
+    "clsx": "^2",
+    "gpuijs": "workspace:*",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tailwind-merge": "^3"
+  },
+  "devDependencies": {
+    "bun-plugin-tailwind": "^0.1",
+    "tailwindcss": "^4"
+  }
+}

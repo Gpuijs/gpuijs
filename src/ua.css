@@ -1,0 +1,79 @@
+/* Browser defaults that matter for layout. Initial `display` is `inline`, as in CSS. */
+html, body, div, p, h1, h2, h3, h4, h5, h6, ul, ol, li, section, article, header, footer, main, nav, aside, form, fieldset, hr, pre, blockquote, figure, table, details, summary, dl, dt, dd, address, figcaption, legend, menu,
+thead, tbody, tfoot, tr, td, th, caption {
+  display: block;
+}
+input, button, select, textarea, img, svg, canvas, video, audio {
+  display: inline-block;
+}
+/* Without controls an <audio> has nothing to show. */
+audio:not([controls]) { display: none; }
+html {
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+body { margin: 8px; }
+p, ul, ol, blockquote, figure, pre { margin-top: 1em; margin-bottom: 1em; }
+li { display: list-item; }
+ul, menu { list-style-type: disc; padding-left: 40px; }
+ol { list-style-type: decimal; padding-left: 40px; }
+ul ul, ol ul { list-style-type: circle; }
+ul ul ul, ul ol ul, ol ul ul, ol ol ul { list-style-type: square; }
+/* A list inside another has none (MUI X's tree nests its groups so). */
+ul ul, ul ol, ol ul, ol ol { margin-top: 0; margin-bottom: 0; }
+h1 { font-size: 2em; margin-top: .67em; margin-bottom: .67em; font-weight: bold; }
+h2 { font-size: 1.5em; margin-top: .83em; margin-bottom: .83em; font-weight: bold; }
+h3 { font-size: 1.17em; margin-top: 1em; margin-bottom: 1em; font-weight: bold; }
+h4, h5, h6, strong, b, th { font-weight: bold; }
+th { text-align: center; }
+table { border-collapse: separate; border-spacing: 2px; width: fit-content; }
+td, th { padding: 1px; }
+em, i { font-style: italic; }
+small { font-size: smaller; }
+sub { vertical-align: sub; font-size: smaller; }
+sup { vertical-align: super; font-size: smaller; }
+a { color: #0000ee; text-decoration: underline; cursor: pointer; }
+button { cursor: default; }
+code, pre, kbd, samp { font-family: monospace; }
+mark { background-color: yellow; color: black; }
+u, ins { text-decoration: underline; }
+s, del { text-decoration: line-through; }
+dd { margin-left: 40px; }
+blockquote, figure { margin-left: 40px; margin-right: 40px; }
+fieldset { margin: 0 2px; padding: .35em .75em .625em; border: 2px groove #c0c0c0; }
+/* Closed, a details shows only its summary, which starts with a disclosure triangle. */
+details:not([open]) > :not(summary) { display: none; }
+[contenteditable]:not([contenteditable="false"]) { cursor: text; }
+[contenteditable="false"] { cursor: default; }
+summary { display: list-item; list-style-type: disclosure-closed; list-style-position: inside; cursor: default; }
+details[open] > summary { list-style-type: disclosure-open; }
+/* Form controls as Chrome draws them unstyled (Tailwind's preflight resets all of this). */
+input, textarea, select, button { font-size: 13.333px; color: #000; }
+input, textarea, select { border: 1px solid #767676; border-radius: 2px; background-color: #fff; }
+input, textarea { padding: 1px 2px; }
+textarea { font-family: monospace; }
+button { border: 1px solid #767676; border-radius: 3px; background-color: #efefef; padding: 1px 6px; }
+button:disabled, input:disabled, select:disabled, textarea:disabled { color: rgba(16, 16, 16, .3); border-color: rgba(118, 118, 118, .3); }
+button:disabled { background-color: rgba(239, 239, 239, .3); }
+progress, meter { display: inline-block; block-size: 1em; vertical-align: -0.2em; }
+progress { inline-size: 10em; }
+meter { inline-size: 5em; }
+input[type=range] { width: 129px; height: 16px; margin: 2px; padding: 0; border: 0; background-color: transparent; }
+input, textarea, select, button { line-height: normal; }
+select { padding-right: 20px; background-position: right center; background-size: contain; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath d='M6.5 8.5l3.5 3.5 3.5-3.5' fill='none' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e"); }
+input[type=checkbox], input[type=radio] { width: 13px; height: 13px; padding: 0; margin: 3px 3px 3px 4px; }
+input[type=radio] { border-radius: 50%; margin: 3px 3px 0 5px; }
+input[type=checkbox]:checked, input[type=radio]:checked { background-color: #0075ff; border-color: #0075ff; }
+input[type=checkbox]:checked { background-size: 100% 100%; background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e"); }
+input[type=radio]:checked { box-shadow: inset 0 0 0 2px #fff; }
+pre { white-space: pre; }
+hr { border-top: 1px solid #ccc; margin: .5em 0; }
+/* Head-only elements render nowhere; React 19 leaves <title>/<meta> where components put them. */
+[hidden], head, title, meta, link, base, template, noscript, style, script { display: none; }
+/* Chrome's dialog: centered when shown, in the top layer over a backdrop when modal. */
+dialog { position: absolute; left: 0; right: 0; margin: auto; border: solid; padding: 1em; background-color: white; color: black; width: fit-content; height: fit-content; }
+dialog:not([open]) { display: none; }
+dialog:modal { position: fixed; top: 0; bottom: 0; max-width: calc(100% - 6px - 2em); max-height: calc(100% - 6px - 2em); overflow: auto; }
+dialog::backdrop { background-color: rgba(0, 0, 0, .1); }

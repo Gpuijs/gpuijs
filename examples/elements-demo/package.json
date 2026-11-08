@@ -1,0 +1,14 @@
+{
+  "name": "elements-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "gpuijs dev ."
+  },
+  "dependencies": {
+    "gpuijs": "workspace:*",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "tailwindcss": "^4"
+  }
+}

@@ -1,0 +1,11 @@
+/target
+node_modules/
+examples/shadcn-admin/
+examples/shadcn-mail/
+examples/shadcn-dashboard/
+examples/tailadmin/
+examples/mui-dashboard/src/dashboard/
+examples/mui-dashboard/src/shared-theme/
+.gpuijs/
+/docs/dist/
+/npm/*/gpuijs

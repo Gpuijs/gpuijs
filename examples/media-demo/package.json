@@ -1,0 +1,14 @@
+{
+  "name": "media-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "gpuijs dev ."
+  },
+  "dependencies": {
+    "chart.js": "4.4.7",
+    "gpuijs": "workspace:*",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

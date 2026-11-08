@@ -1,0 +1,75 @@
+[package]
+name = "gpuijs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.104"
+futures = "0.3.34"
+gpui = "=0.2.2"
+image = { version = "0.25", default-features = false }
+lightningcss = { version = "=1.0.0-alpha.72", default-features = false, features = ["into_owned"] }
+parcel_selectors = "=0.28.3"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+static-self = "=0.1.2"
+unicode-segmentation = "1.13.3"
+
+# AVFoundation playback for <video> and <audio> (src/media.rs), with the crates gpui uses for it.
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.10"
+core-video = "0.4.3"
+objc = "0.2"
+
+# Dependencies do the heavy lifting (CSS parsing, layout, text, SVG): optimize them even in dev
+# builds, or every frame is several times slower. gpuijs itself stays quick to rebuild.
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.dev]
+opt-level = 1
+
+[dev-dependencies]
+taffy = "=0.9.0"
+
+# Vendored copies with small fixes, each marked "gpuijs patch" in the source:
+# - taffy: clamp a flex item's definite cross size by min/max before measuring it, and keep gaps
+#   between items when auto margins take the free space, and size flex containers by outer item
+#   contributions so negative margins don't collapse them, and keep aspect-ratio items at their
+#   transferred minimum size (src/compute/flexbox.rs); resolve a block child's vertical % insets
+#   against the container's definite height, and count a fixed-width child's margins in the block's
+#   content width (src/compute/block.rs); reuse a cached final layout
+#   only for the same known size and drop it once the node is measured again (src/tree/cache.rs);
+#   a grid item's % size behaves as auto while its tracks are sized (src/compute/grid/types/grid_item.rs).
+# - gpui: grid track lists, grid-auto-*, justify-self/justify-items on Style (src/geometry.rs, style.rs, taffy.rs);
+#   SVG images converted to BGRA like other formats (src/platform.rs); translate (with a px part
+#   for mixed calc()), rotate, scale, translate_after and transform_origin on Style (style.rs,
+#   taffy.rs); no mid-word line breaks and side-measured intrinsic text sizes
+#   (text_system/, elements/text.rs); hover kept while pressed (elements/div.rs); CSS group
+#   opacity and transforms, painting a translucent or transformed element with children offscreen
+#   and compositing it once, nested up to three deep, on macOS (scene.rs, window.rs, elements/div.rs,
+#   platform/mac/metal_renderer.rs, shaders.metal); scroll containers reach content their
+#   children overflow visibly, such as a table's columns (elements/div.rs, window.rs, taffy.rs);
+#   CSS `backdrop-filter: blur()` on macOS: what is behind a box is downsampled, blurred and drawn
+#   back under its background (style.rs, scene.rs, window.rs, elements/div.rs,
+#   platform/mac/metal_renderer.rs, shaders.metal); window visibility (`is_window_visible`,
+#   `observe_window_visibility`) from macOS occlusion (platform.rs, platform/mac/window.rs,
+#   window.rs, app/context.rs); `GPUIJS_PROFILE` frame timings (profile.rs and the frame phases);
+#   checked and disabled menu items and an About item (platform/app_menu.rs, platform/mac/platform.rs);
+#   native context menus, `App::popup_menu` (platform.rs, app.rs, platform/mac/platform.rs); dragging
+#   the window from a custom title bar, `start_window_move` on macOS (platform/mac/window.rs); CSS
+#   inset box shadows, `Style::inset_shadow`, drawn inside the padding box over the background on
+#   macOS (style.rs, window.rs, scene.rs, platform/mac/shaders.metal; the other shaders' structs);
+#   an opacity group whose primitives don't overlap is dissolved into faded primitives instead of
+#   an offscreen pass (scene.rs); CSS `object-position` on images, and an image larger than its box
+#   (`object-fit: cover`) cropped to it, `Window::paint_image_within` (style.rs, elements/img.rs, window.rs); CSS `grid-auto-flow`, `Style::grid_auto_flow` (style.rs, taffy.rs); CSS `letter-spacing` and `overflow-wrap`/`word-break`,
+#   `TextStyle::letter_spacing` and `word_break` carried on text and font runs, spacing glyphs after
+#   shaping and letting long words break (style.rs, text_system.rs, text_system/line_layout.rs, elements/text.rs); gradients
+#   through up to four stops and radial gradients, `linear_gradient_stops`, `radial_gradient`
+#   (color.rs, style.rs, platform/mac/shaders.metal; Linux's shaders.wgsl isn't updated); CSS
+#   `filter`, `Style::filter`: the box drawn as a group, blurred by the backdrop passes and
+#   recolored by a color matrix as it is composited (style.rs, scene.rs, window.rs,
+#   platform/mac/metal_renderer.rs, shaders.metal).
+[patch.crates-io]
+taffy = { path = "vendor/taffy" }
+gpui = { path = "vendor/gpui" }

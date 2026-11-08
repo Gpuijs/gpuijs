@@ -1,0 +1,15 @@
+{
+  "name": "css-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "gpuijs dev .",
+    "web": "bun web/serve.ts",
+    "compare": "bun compare.ts"
+  },
+  "dependencies": {
+    "gpuijs": "workspace:*",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}
