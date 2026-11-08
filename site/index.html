@@ -119,6 +119,17 @@ svg.icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-w
   border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
 }
 .theme-button:hover { color: var(--text); background: var(--bg-soft); }
+.github {
+  display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 10px;
+  font-size: 13.5px; color: var(--text-soft);
+  border: 1px solid var(--border); border-radius: 8px;
+}
+.github:hover { color: var(--text); background: var(--bg-soft); text-decoration: none; }
+.github > svg { width: 18px; height: 18px; }
+.github .stars { display: flex; align-items: center; gap: 4px; padding-left: 8px; border-left: 1px solid var(--border); }
+.github .stars[hidden] { display: none; }
+.github .stars svg { width: 13px; height: 13px; color: #eab308; }
+.github b { font-weight: 600; font-variant-numeric: tabular-nums; }
 .theme-button svg { width: 17px; height: 17px; }
 
 /* Buttons */
@@ -420,6 +431,7 @@ footer { margin-top: 96px; border-top: 1px solid var(--border); }
       <a class="wide" href="#how">How it works</a>
       <a class="wide" href="https://docs.gpuijs.dev/quick-start.html#the-examples">Examples</a>
     </nav>
+    <a class="github" href="https://github.com/Gpuijs/gpuijs" aria-label="gpuijs on GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.37A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span class="stars" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 .6l2.3 4.7 5.1.7-3.7 3.6.9 5.1L8 12.3l-4.6 2.4.9-5.1L.6 6l5.1-.7z"/></svg><b></b></span></a>
     <button class="theme-button" aria-label="Toggle dark mode"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
     <a class="button small primary" href="https://docs.gpuijs.dev/quick-start.html">Get started</a>
   </div>
@@ -678,7 +690,7 @@ Menu.setApplicationMenu(
         <div><h3>Linux</h3><div class="status">In progress</div></div>
       </div>
     </div>
-    <p class="note">An app has one window for now, and gpuijs is not a browser: WebGL, iframes and <code>contentEditable</code> don't work. <a href="https://docs.gpuijs.dev/troubleshooting.html">See the known gaps</a>.</p>
+    <p class="note">An app has one window for now, and gpuijs is not a browser: iframes and native drag and drop don't work. <a href="https://docs.gpuijs.dev/troubleshooting.html">See the known gaps</a>.</p>
   </section>
 
   <div class="wrap">
@@ -701,6 +713,7 @@ Menu.setApplicationMenu(
       <a href="https://docs.gpuijs.dev/quick-start.html">Quick start</a>
       <a href="https://docs.gpuijs.dev/frameworks.html">Frameworks</a>
       <a href="https://docs.gpuijs.dev/architecture.html">Architecture</a>
+      <a href="https://github.com/Gpuijs/gpuijs">GitHub</a>
     </nav>
   </div>
 </footer>
@@ -715,6 +728,28 @@ document.querySelector(".theme-button").addEventListener("click", () => {
   } catch {}
 })
 
+// The repo's star count beside the GitHub link, fetched once a session: GitHub allows 60
+// unauthenticated API calls an hour. Without it the link shows the logo alone.
+async function showStars() {
+  let stars
+  try {
+    stars = sessionStorage.getItem("stars")
+  } catch {}
+  if (stars == null) {
+    const res = await fetch("https://api.github.com/repos/Gpuijs/gpuijs")
+    if (!res.ok) return
+    stars = (await res.json()).stargazers_count
+    try {
+      sessionStorage.setItem("stars", stars)
+    } catch {}
+  }
+  const link = document.querySelector(".github")
+  const count = link.querySelector(".stars")
+  count.querySelector("b").textContent = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(stars).toLowerCase()
+  count.hidden = false
+  link.setAttribute("aria-label", `gpuijs on GitHub, ${Number(stars).toLocaleString("en")} stars`)
+}
+showStars().catch(() => {})
 // Framework tabs: swap the code; the window stays the same app.
 const tabs = document.querySelectorAll(".tab")
 for (const tab of tabs) {

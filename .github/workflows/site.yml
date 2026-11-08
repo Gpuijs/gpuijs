@@ -1,0 +1,33 @@
+# gpuijs.dev: site/ copied to Gpuijs/gpuijs.github.io, whose GitHub Pages site serves its main
+# branch. Pushes with the write deploy key in the SITE_DEPLOY_KEY secret.
+name: Site
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/site.yml"]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push site/ to Gpuijs/gpuijs.github.io
+        env:
+          DEPLOY_KEY: ${{ secrets.SITE_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git clone git@github.com:Gpuijs/gpuijs.github.io.git out
+          find out -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R site/. out/
+          echo gpuijs.dev > out/CNAME
+          touch out/.nojekyll
+          cd out
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -m "Site from Gpuijs/gpuijs@${GITHUB_SHA::7}" || exit 0
+          git push origin HEAD:main
